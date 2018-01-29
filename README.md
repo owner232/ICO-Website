@@ -3,6 +3,8 @@
  - BTC: 14kSNTG4T21vn1AY6Yv4PAwUEPurx6wHQ9
  - LTC: LNnjWwDA6yBqsEWkcVtwyZxT5QzSRt5ytP
  
+ IF YOU WANT CUSTOM WORK, Send me an email at owner232@gmail.com With what you want done and I will reply with a quote.
+ 
 ICO website light documentation.
 
 This site worked for us without an issue.
