@@ -1,19 +1,3 @@
-/*
- Navicat MySQL Data Transfer
-
- Source Server         : hostgay
- Source Server Type    : MySQL
- Source Server Version : 50551
- Source Host           : 192.254.189.58:3306
- Source Schema         : owner232_ico
-
- Target Server Type    : MySQL
- Target Server Version : 50551
- File Encoding         : 65001
-
- Date: 18/01/2018 00:01:22
-*/
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
