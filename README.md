@@ -3,8 +3,7 @@
  - BTC: 14kSNTG4T21vn1AY6Yv4PAwUEPurx6wHQ9
  - LTC: LNnjWwDA6yBqsEWkcVtwyZxT5QzSRt5ytP
  
-
-ICO website light documentation.
+**ICO website light documentation.
 
 This site worked for us without an issue.
 
@@ -57,4 +56,4 @@ Limit BTC Deposit* is a option to disable the deposits after the amount of btc/l
 
 You will notice that the database will say btc but will mean LTC BTC AND ETH dont worry about it. The deposits say this too. You can see all of the deposits on coinpayments if it bothers you edit the code.
 
-Your total btc is accurate to the total btc you have gained it adds up ltc eth and all of that and computes the output to btc **
+Your total btc is accurate to the total btc you have gained it adds up ltc eth and all of that and computes the output to btc
