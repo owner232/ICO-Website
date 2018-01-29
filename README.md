@@ -50,7 +50,8 @@ Like coin sold, it allows you to change alot more than the interface allows
 2FA is real and works you dont need to mess with it, it generates a new key for everyone.
 
 You need to run this cron job every 1-2 minutes
- 	wget -O /dev/null -o /dev/null https://yourwebsite/crontodo
+
+wget -O /dev/null -o /dev/null https://yourwebsite/crontodo
   
 Limit BTC Deposit* is a option to disable the deposits after the amount of btc/ltc/eth coin value to usd is over what the ico would sell for to prevent over selling.
 
