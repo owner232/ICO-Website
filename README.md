@@ -7,6 +7,8 @@
  
 ICO website light documentation.
 
+update priceticker.php with your api information to coinpayments
+
 This site worked for us without an issue.
 
 Import the sql file in the main directory called "importthisfile.sql"
