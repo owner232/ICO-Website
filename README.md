@@ -22,6 +22,7 @@ Create an api key with everything but withdraw and anything related to it disabl
 head over to your website/ip  with the ico site running on it, and add /admin to the url.
 
 NOTE: THE CAPTCHA WILL NOT WORK UNTIL YOU EDIT LOGIN.PHP / LOGINS.PHP AND CHANGE THE CAPTCHA KEY TO YOUR DOMAIN
+But for now you can just click login and it will work.
 
 login with this
 
