@@ -2,7 +2,7 @@
 	require('./application/libraries/bitcoin/coinpayments.inc.php');
 	//require('./coinpayments.inc.php');
 	$cps = new CoinPaymentsAPI();
-	$cps->Setup('a8cCaaF1420d84bbd0b258f9E42935A2077a8d186332334D87C66e121Fbf7ec6', '8a6e4b92be7dec129341c33ba9ad213ffff807de074e15a0e2f303dd0f5039be');
+	$cps->Setup('api public', 'api private');
 	
 	$coin = $_REQUEST['c'];
 	$p = $_REQUEST['p'];
