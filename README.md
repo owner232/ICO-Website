@@ -21,6 +21,8 @@ You can test connectivity by going on your ico website and creating a deposit, N
 Create an api key with everything but withdraw and anything related to it disabled.
 head over to your website/ip  with the ico site running on it, and add /admin to the url.
 
+NOTE: THE CAPTCHA WILL NOT WORK UNTIL YOU EDIT LOGIN.PHP / LOGINS.PHP AND CHANGE THE CAPTCHA KEY TO YOUR DOMAIN
+
 login with this
 
 admin
