@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html> 
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>The very first family chart</title>
+
+	<link rel="stylesheet" href="demo/js/jquery/ui-lightness/jquery-ui-1.10.2.custom.css" />
+	<script type="text/javascript" src="demo/js/jquery/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="demo/js/jquery/jquery-ui-1.10.2.custom.min.js"></script>
+
+	<!-- # include file="src/src.primitives.html"-->
+
+	<script type="text/javascript" src="demo/js/primitives.min.js?3600"></script>
+	<link href="demo/css/primitives.latest.css?3600" media="screen" rel="stylesheet" type="text/css" />
+
+	<script type='text/javascript'>//<![CDATA[ 
+		$(window).load(function () {
+			var options = new primitives.famdiagram.Config();
+
+			var items = [
+				new primitives.famdiagram.ItemConfig({
+					id: 5,
+					parent: null,
+					title: "Scott Aasrud",
+					description: "VP, Public Sector",
+					image: "demo/images/photos/a.png"
+				}),
+				new primitives.famdiagram.ItemConfig({
+					id: 1,
+					parents: [5],
+					title: "Ted Lucas",
+					description: "VP, Human Resources",
+					image: "demo/images/photos/b.png"
+				}),
+				new primitives.famdiagram.ItemConfig({
+					id: 2,
+					parents: [5],
+					title: "Fritz Stuger",
+					description: "Business Solutions, US",
+					image: "demo/images/photos/c.png"
+				}),
+				new primitives.famdiagram.ItemConfig({
+					id: 3,
+					parents: [5, 1, 2],
+					title: "Fritz Stuger 2",
+					description: "Business Solutions 2, US",
+					image: "demo/images/photos/d.png"
+				})
+			];
+
+			options.items = items;
+			options.cursorItem = 0;
+			options.hasSelectorCheckbox = primitives.common.Enabled.True;
+
+			jQuery("#basicdiagram").famDiagram(options);
+		});//]]>  
+
+	</script>
+</head>
+<body>
+	<div id="basicdiagram" style="width: 640px; height: 480px; border-style: dotted; border-width: 1px;" />
+</body>
+</html>

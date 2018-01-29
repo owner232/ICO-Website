@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html> 
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>Matrix Layout of Multiple Root Items In Chart</title>
+
+	<link rel="stylesheet" href="demo/js/jquery/ui-lightness/jquery-ui-1.10.2.custom.css" />
+	<script type="text/javascript" src="demo/js/jquery/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="demo/js/jquery/jquery-ui-1.10.2.custom.min.js"></script>
+
+	<!-- # include file="src/src.primitives.html"-->
+	<script type="text/javascript" src="demo/js/primitives.min.js?3600"></script>
+	<link href="demo/css/primitives.latest.css?3600" media="screen" rel="stylesheet" type="text/css" />
+
+	<script type='text/javascript'>//<![CDATA[ 
+		$(window).load(function () {
+			var options = new primitives.orgdiagram.Config();
+
+			var items = [
+				new primitives.orgdiagram.ItemConfig({
+					id: 0,
+					parent: null,
+					isVisible: false,
+					childrenPlacementType: primitives.common.ChildrenPlacementType.Matrix
+				})
+			];
+
+			for (var index = 1; index <= 9; index += 1) {
+				items.push(
+					new primitives.orgdiagram.ItemConfig({
+						id: index,
+						parent: 0,
+						title: "Itme " + index,
+						description: "Some description about item",
+						image: "demo/images/photos/b.png"
+					})
+				);
+			}
+
+			options.items = items;
+			options.cursorItem = 0;
+			options.hasSelectorCheckbox = primitives.common.Enabled.True;
+			options.pageFitMode = primitives.common.PageFitMode.None;
+			options.orientationType = primitives.common.OrientationType.Top;
+
+			jQuery("#basicdiagram").orgDiagram(options);
+		});//]]>  
+
+	</script>
+</head>
+<body>
+	<div id="basicdiagram" style="width: 640px; height: 480px; border-style: dotted; border-width: 1px;" />
+</body>
+</html>

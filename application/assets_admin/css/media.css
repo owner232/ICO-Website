@@ -1,0 +1,849 @@
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.p-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+a img {
+  border: none;
+  vertical-align: middle;
+}
+input,
+textarea {
+  outline: none;
+  resize: none;
+}
+ol,
+ul {
+  list-style: none;
+  padding: 0;
+}
+.clear {
+  clear: both;
+  line-height: 0;
+  height: 0;
+  display: block;
+}
+.text_r {
+  text-align: right;
+}
+.text_c {
+  text-align: center;
+}
+.text_l {
+  text-align: left;
+}
+.ov {
+  overflow: hidden;
+}
+.block {
+  display: block;
+}
+.in_bl {
+  display: inline-block !important;
+}
+.inline {
+  display: inline-block;
+}
+.hidden {
+  visibility: hidden;
+}
+.none {
+  display: none;
+}
+sup,
+sub {
+  vertical-align: baseline;
+  position: relative;
+  font-size: .4em;
+  line-height: 1;
+}
+sup {
+  bottom: 1.4ex;
+}
+sub {
+  top: .5ex;
+}
+.va_t {
+  vertical-align: top;
+}
+.va_m {
+  vertical-align: middle;
+}
+.va_b {
+  vertical-align: bottom;
+}
+.va_middle_out {
+  position: relative;
+  line-height: 0;
+  font-size: 0;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+@media (min-width: 1251px) {
+  .acc__wrap .single .acc__row:before {
+    width: 50px;
+  }
+}
+@media (max-width: 1250px) {
+  .invest__item {
+    font-size: 17px;
+  }
+  .invest__head {
+    font-size: 12px;
+  }
+  .invest__date {
+    font-size: 13px;
+  }
+  .currency__more {
+    width: 58%;
+  }
+  .case {
+    padding-right: 80px;
+    padding-left: 80px;
+  }
+  .case.membership .list-square {
+    margin-bottom: 25px;
+  }
+  .twoFa__qr {
+    margin-right: 5%;
+  }
+  .form-enable {
+    width: 74%;
+    padding: 20px 25px;
+  }
+  .btn-inputRight {
+    min-width: 85px;
+  }
+  .acc__wrap .single .acc__row:before {
+    width: 31px;
+  }
+  .bounty__item {
+    height: 255px;
+    padding: 0 10px;
+    font-size: 14px;
+    border-width: 3px;
+  }
+  .bounty__item .mark {
+    display: block;
+  }
+  .bounty__pic {
+    height: 115px;
+  }
+  .bounty__desc {
+    font-size: 13px;
+  }
+  .user__ava {
+    width: 40%;
+    padding-bottom: 40%;
+    font-size: 110px;
+  }
+  .user__info {
+    width: 58%;
+    font-size: 14px;
+  }
+  .user__name {
+    font-size: 21px;
+  }
+  .resources__box {
+    width: 100%;
+    padding-bottom: 100%;
+    font-size: 16px;
+  }
+  .resources__icon {
+    font-size: 85px;
+  }
+  .resources__name {
+    margin-top: -5px;
+  }
+  .investCurr__item .currency__usd {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .investCurr__title {
+    font-size: 14px;
+  }
+  .investCurr__val {
+    font-size: 17px;
+  }
+}
+@media (max-width: 991px) {
+  .btn {
+    font-size: 16px;
+  }
+  .btn.md {
+    width: 185px;
+  }
+  .header__logo {
+    width: 190px;
+  }
+  .lang__wrap {
+    margin-left: 5px;
+  }
+  .mainNav__item {
+    margin: 0 12px;
+  }
+  .mainNav__btnWrap {
+    margin-left: 0;
+  }
+  .invest__box {
+    margin-bottom: 0;
+  }
+  .invest__item {
+    font-size: 15px;
+  }
+  .currency__wrap {
+    margin-left: -22px;
+  }
+  .currency__exchange {
+    font-size: 15px;
+  }
+  .currency__picWrap {
+    width: 40px;
+    height: 40px;
+  }
+  .case {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .form__hint {
+    left: 0;
+    top: 100%;
+    margin-top: 2px;
+    margin-left: 0;
+    padding: 1px 10px;
+    font-size: 11px;
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+  }
+  .form__hint:before {
+    display: none;
+  }
+  .form.hint {
+    font-size: 11px;
+  }
+  .membership__pic {
+    position: static;
+    margin: 25px 0 50px;
+  }
+  .bounty__item {
+    width: 35%;
+  }
+  .resources__box {
+    margin-top: 40px;
+    width: 60%;
+    padding-bottom: 60%;
+  }
+  .circleProgress__item {
+    width: 32%;
+  }
+  .circleProgress__info {
+    font-size: 16px;
+  }
+  .circleProgress__value {
+    font-size: 45px;
+  }
+  .userProgress__wrap {
+    margin: 30px -20px;
+  }
+  .userProgress__wrap:before {
+    height: 7px;
+  }
+  .userProgress__item:before {
+    height: 7px;
+  }
+  .userProgress__pic {
+    font-size: 70px;
+  }
+  .userProgress__title {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+  .userProgress__value {
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  .userProgress__dot {
+    width: 26px;
+    height: 26px;
+    border-width: 4px;
+  }
+  .qr__box {
+    width: 210px;
+  }
+  .input {
+    font-size: 12px;
+    padding: 0 12px;
+  }
+  .bts__qr .qr__box {
+    width: 140px;
+  }
+  .investCurr__item .currency__usd {
+    font-size: 12px;
+  }
+  .investCurr__title {
+    font-size: 15px;
+    padding-left: 5px;
+  }
+  .investCurr__exchange {
+    font-size: 10px;
+  }
+}
+@media (min-width: 768px) {
+  .mainNav__link.active,
+  .mainNav__link:hover {
+    color: white;
+    box-shadow: inset 0 -3px white;
+  }
+  .mainNav__wrap {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    -moz-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
+  }
+  .acc__wrap .col:nth-child(2) {
+    width: 37%;
+  }
+  .acc__wrap .col:nth-child(3) {
+    width: 18%;
+    text-align: right;
+  }
+  .acc__wrap .col:nth-child(4) {
+    width: 35%;
+    text-align: right;
+  }
+  .acc__subitem .acc__row:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20px;
+    bottom: 0;
+    width: 2px;
+    border-left: 1px dashed #000;
+  }
+  .acc__subitem .acc__row:before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 20px;
+    width: 14px;
+    bottom: 22px;
+    height: 2px;
+    border-top: 1px dashed #000;
+  }
+  .acc__item-lvl2 .col:nth-child(3) {
+    width: 17.2%;
+  }
+  .acc__item-lvl2 .col:nth-child(4) {
+    width: 35.7%;
+  }
+  .acc__item-lvl3 .col:nth-child(1) {
+    width: 2%;
+  }
+  .acc__item-lvl3 .col:nth-child(2) {
+    width: 40%;
+  }
+  .acc__item-lvl3 .col:nth-child(3) {
+    width: 17.3%;
+  }
+  .acc__item-lvl3 .col:nth-child(4) {
+    width: 36.5%;
+  }
+  .acc__item-lvl3 .acc__row {
+    border-left: 1px dashed #000;
+  }
+  .currency__link:hover .currency__pic {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+  }
+  .investCurr__item:hover {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+  }
+}
+@media (max-width: 767px) {
+  p {
+    margin-bottom: 7px;
+  }
+  .btn-menu {
+    display: inline-block;
+    float: left;
+  }
+  .btn-accent {
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+  }
+  .btn-inputRight {
+    height: 40px;
+    line-height: 40px;
+    border-radius: 23px;
+    min-width: 80px;
+    font-size: 13px;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+  }
+  .btn.md,
+  .btn.sm {
+    width: 100%;
+  }
+  .header {
+    background: #060f24;
+  }
+  .header__logo {
+    width: 136px;
+    margin-left: -68px;
+    position: absolute;
+    left: 150%;
+    top: 61px;
+    z-index: 1;
+  }
+  .header__logo.visible {
+    left: 50%;
+  }
+  .header__nav {
+    display: block;
+  }
+  .mainNav__wrap {
+    position: fixed;
+    top: 58px;
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    background: #060f24;
+    text-align: left;
+    line-height: 1.25;
+    overflow: auto;
+    -webkit-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+  }
+  .mainNav__wrap.open {
+    right: 0;
+  }
+  .mainNav__list {
+    padding: 41px 0 15px;
+  }
+  .mainNav__item {
+    float: none;
+    margin: 20px 0 20px 4px;
+  }
+  .mainNav__link {
+    font-size: 16px;
+    padding: 0 0 0 12px;
+    color: #fff;
+  }
+  .mainNav__link.active {
+    color: #aeff00;
+    box-shadow: -4px 0 0 #aeff00;
+  }
+  .mainNav__btn {
+    width: 150px;
+    height: 35px;
+    line-height: 34px;
+    border-radius: 20px;
+    text-align: center;
+  }
+  .mainNav__btnWrap {
+    display: block;
+    margin-left: 0;
+    font-size: 14px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    text-align: center;
+  }
+  .mainNav__btnTxt {
+    margin-left: 17px;
+  }
+  .lang__wrap {
+    float: left;
+    margin-top: 10px;
+  }
+  .invest__list {
+    display: block;
+  }
+  .invest__list:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+  .invest__title {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  .invest__head {
+    font-size: 11px;
+  }
+  .invest__item {
+    font-size: 13px;
+    width: 50%;
+    margin-bottom: 20px;
+  }
+  .progress__wrap {
+    padding-top: 68px;
+    position: relative;
+    margin-top: 20px;
+  }
+  .progress__base {
+    height: 15px;
+    box-shadow: 0 0 0 8px rgba(24, 198, 206, 0.07), inset 0 12px 8px rgba(4, 18, 31, 0.42), 1px 1px 27px 10px rgba(138, 221, 222, 0.23);
+  }
+  .progress__bar .gradient:before {
+    height: 4px;
+    top: 2px;
+    right: 2px;
+    left: 2px;
+    border-radius: 6px 6px 0 0;
+  }
+  .progress__footer {
+    margin-top: 14px;
+  }
+  .progress__total {
+    font-size: 19px;
+    float: none;
+    padding-top: 3px;
+  }
+  .progress__totalInv {
+    font-size: 11px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+  .progress__totalInv .value {
+    display: inline-block;
+    font-size: 19px;
+  }
+  .progress__tooltip {
+    bottom: 68px;
+  }
+  .progress__checkpoint {
+    top: 30px;
+    line-height: 1.3;
+    margin-left: -3px;
+  }
+  .progress__checkpoint:before {
+    bottom: -2px;
+    left: 2px;
+  }
+  .progress__checkpoint .flagBox {
+    font-size: 25px;
+  }
+  .progress__checkpoint .info {
+    font-size: 10px;
+  }
+  .progress__checkpoint .date {
+    font-size: 12px;
+  }
+  .currency__more {
+    width: 100%;
+  }
+  .currency__wrap {
+    margin-left: 0;
+    font-size: 0;
+    letter-spacing: 0;
+  }
+  .currency__item {
+    display: inline-block;
+    width: 50%;
+  }
+  .currency__link {
+    padding: 10px;
+  }
+  .currency__picWrap {
+    margin-bottom: 10px;
+  }
+  .currency__exchange {
+    font-size: 10px;
+  }
+  [type="checkbox"]:not(:checked) + label:before,
+  [type="checkbox"]:checked + label:before {
+    left: 0;
+    top: -1px;
+    width: 21px;
+    height: 21px;
+  }
+  [type="checkbox"]:not(:checked) + label:after,
+  [type="checkbox"]:checked + label:after {
+    top: 1px;
+    left: 4px;
+    font-size: 13px;
+  }
+  .input {
+    height: 40px;
+    padding: 0 3px;
+    font-size: 10px;
+  }
+  .input__group {
+    position: relative;
+    padding-bottom: 50px;
+  }
+  .input__group .input {
+    border-radius: 23px;
+  }
+  .input [class^="source"] {
+    line-height: 38px;
+  }
+  .form-enable {
+    width: 100%;
+    padding: 20px 15px;
+  }
+  .dashboard {
+    text-align: center;
+  }
+  .dashboard__title {
+    font-size: 20px;
+  }
+  .dashboard__hint {
+    font-size: 12px;
+  }
+  .profile__wrap.static {
+    position: absolute;
+    left: 50%;
+    margin: 0;
+    -webkit-transform: translate(-50%, 0);
+    -moz-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
+  }
+  .profile__wrap.static .profile__pic {
+    display: block;
+  }
+  .profile__pic {
+    display: none;
+  }
+  .profile__info {
+    font-size: 10px;
+    margin-top: 12px;
+  }
+  .profile__info .value {
+    font-size: 16px;
+  }
+  .case {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .case.membership {
+    text-align: left;
+  }
+  .twoFa__wrap {
+    text-align: left;
+  }
+  .twoFa__qr {
+    width: 100%;
+    margin: 0;
+  }
+  .disable__wrap {
+    padding-top: 0;
+  }
+  .acc__wrap .col {
+    padding: 8px 5px;
+  }
+  .acc__wrap .col:nth-child(2) {
+    width: 90%;
+  }
+  .acc__wrap .col:nth-child(4),
+  .acc__wrap .col:nth-child(3) {
+    width: 50%;
+  }
+  .acc__head .col {
+    width: 50%;
+  }
+  .acc__head .col:nth-child(1),
+  .acc__head .col:nth-child(2) {
+    display: none;
+  }
+  .membership__pic {
+    margin: 10px 0 30px;
+  }
+  .accounts .h2 {
+    display: block;
+  }
+  .accounts .link-def {
+    float: none;
+    margin: 0 0 15px;
+  }
+  .boxInfo {
+    height: auto;
+    padding: 50px 15px;
+  }
+  .boxInfo .h2 {
+    margin-bottom: 30px;
+  }
+  .boxInfo__logo {
+    margin-bottom: 40px;
+  }
+  .content.center {
+    margin-top: 0;
+  }
+  .bounty__item {
+    width: 90%;
+    height: auto;
+    padding-bottom: 14px;
+    margin-bottom: 15px;
+  }
+  .bounty__pic {
+    height: 95px;
+    margin-bottom: 0;
+  }
+  .bounty__desc {
+    min-height: 0;
+    margin-bottom: 8px;
+  }
+  .bounty__total {
+    font-size: 18px;
+    padding-top: 20px;
+  }
+  .user__ava {
+    width: 210px;
+    padding-bottom: 200px;
+    font-size: 135px;
+  }
+  .user__info {
+    width: 100%;
+    margin-top: 15px;
+  }
+  .resources__box {
+    width: 210px;
+    padding-bottom: 200px;
+  }
+  .circleProgress__wrap {
+    margin-bottom: 25px;
+  }
+  .circleProgress__item {
+    width: 80%;
+    margin-bottom: 30px;
+  }
+  .circleProgress__date {
+    font-size: 16px;
+    padding: 10px 0;
+  }
+  .userProgress__wrap {
+    margin: 45px auto 0;
+    width: 260px;
+  }
+  .userProgress__wrap:before {
+    height: 80%;
+    width: 5px;
+    bottom: 90px;
+    left: 0;
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+  }
+  .userProgress__item {
+    width: 100%;
+    padding-bottom: 45px;
+    text-align: left;
+  }
+  .userProgress__item:before {
+    height: inherit;
+    width: 5px;
+    left: 0;
+    bottom: 100%;
+    margin-bottom: -8px;
+  }
+  .userProgress__item.fill:before {
+    height: 100%;
+    width: 5px;
+  }
+  .userProgress__info {
+    margin-left: 48px;
+  }
+  .userProgress__dot {
+    position: absolute;
+    top: 8px;
+    left: -11px;
+  }
+  .userProgress__pic {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .userProgress__in {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .bts__wraning {
+    font-size: 14px;
+  }
+  .bts__qr {
+    margin-top: 18px;
+  }
+  .investCurr__wrap {
+    display: block;
+  }
+  .investCurr__item {
+    max-width: inherit;
+    width: 50%;
+    text-align: center;
+    padding: 0 10px;
+    margin-bottom: 22px;
+  }
+  .investCurr__info {
+    margin-top: 5px;
+  }
+  .investCurr__val {
+    font-size: 15px;
+  }
+}
+@media (max-width: 560px) {
+  .modal-md {
+    width: 90%;
+  }
+  .modal-header {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+  .modal-header.headerPic:after {
+    width: 80px;
+    height: 90px;
+    right: 10px;
+  }
+  .modal-title {
+    font-size: 25px;
+  }
+  .modal-body {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1250px) {
+  .acc__item-lvl2 .col:nth-child(3) {
+    width: 17%;
+  }
+  .acc__item-lvl2 .col:nth-child(4) {
+    width: 35.9%;
+  }
+}

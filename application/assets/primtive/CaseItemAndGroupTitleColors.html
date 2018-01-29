@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html> 
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>Item title color</title>
+
+	<link rel="stylesheet" href="demo/js/jquery/ui-lightness/jquery-ui-1.10.2.custom.css" />
+	<script type="text/javascript" src="demo/js/jquery/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="demo/js/jquery/jquery-ui-1.10.2.custom.min.js"></script>
+
+	<!-- # include file="src/src.primitives.html"-->
+	<script type="text/javascript" src="demo/js/primitives.min.js?3600"></script>
+	<link href="demo/css/primitives.latest.css?3600" media="screen" rel="stylesheet" type="text/css" />
+
+	<script type='text/javascript'>//<![CDATA[ 
+		$(window).load(function () {
+			var options = new primitives.orgdiagram.Config();
+
+			var items = [
+				new primitives.orgdiagram.ItemConfig({
+					id: 0,
+					parent: null,
+					title: "Scott Aasrud",
+					description: "VP, Public Sector",
+					groupTitle: "Group 1",
+					image: "demo/images/photos/a.png",
+					itemTitleColor: primitives.common.Colors.Black
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 1,
+					parent: 0,
+					title: "Ted Lucas",
+					description: "VP, Human Resources",
+					image: "demo/images/photos/b.png",
+					itemTitleColor: primitives.common.Colors.Green,
+					groupTitle: "Group 2",
+					groupTitleColor: primitives.common.Colors.Gray
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 2,
+					parent: 0,
+					title: "Fritz Stuger",
+					description: "Business Solutions, US",
+					image: "demo/images/photos/c.png",
+					itemTitleColor: primitives.common.Colors.Yellow,
+					groupTitle: "Group 2"
+				})
+			];
+
+			options.items = items;
+			options.cursorItem = 0;
+			options.itemTitleFirstFontColor = primitives.common.Colors.Yellow;
+			options.itemTitleSecondFontColor = primitives.common.Colors.Blue;
+
+			jQuery(".basicdiagram").orgDiagram(options);
+		});//]]>  
+
+	</script>
+
+</head>
+<body>
+	<div class="basicdiagram" style="width: 640px; height: 480px; border-style: dotted; border-width: 1px;" />
+</body>
+</html>

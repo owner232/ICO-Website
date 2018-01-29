@@ -1,0 +1,816 @@
+﻿<!DOCTYPE html> 
+<html>
+<head>
+	<title>jQuery Widget Organizational Chart Navigation Demo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="demo/js/jquery/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="demo/js/jquery/jquery-ui-1.10.2.custom.min.js"></script>
+	<link href="demo/js/jquery/ui-lightness/jquery-ui-1.10.2.custom.css" media="screen" rel="stylesheet" type="text/css" />
+
+	<!-- jQuery UI Layout -->
+	<script type="text/javascript" src="demo/jquerylayout/jquery.layout-latest.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="demo/jquerylayout/layout-default-latest.css" />
+
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			jQuery('body').layout(
+			{
+				center__paneSelector: "#contentpanel"
+			});
+		});
+	</script>
+
+	<!-- header -->
+
+
+	<!-- # include file="src/src.primitives.html"-->
+
+	<link href="demo/css/primitives.latest.css?3600" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="demo/js/primitives.min.js?3600"></script>
+
+	<script type="text/javascript">
+		var orgDiagram = null;
+		var treeItems = {};
+		var contextidcounter = 0;
+		var currentHighlightDataTreeItem = null;
+		var currentCursorDataTreeItem = null;
+
+		jQuery(document).ready(function () {
+			jQuery.ajaxSetup({
+				cache: false
+			});
+
+			jQuery('#contentpanel').layout(
+			{
+				center__paneSelector: "#centerpanel"
+				, south__paneSelector: "#southpanel"
+				, south__resizable: false
+				, south__closable: false
+				, south__spacing_open: 0
+				, south__size: 50
+				, west__size: 200
+				, west__paneSelector: "#westpanel"
+				, west__resizable: true
+				, center__onresize: function () {
+					if (orgDiagram != null) {
+						jQuery("#centerpanel").orgDiagram("update", primitives.common.UpdateMode.Refresh);
+					}
+				}
+			});
+
+			/* Page Fit Mode */
+			var pageFitModes = jQuery("#pageFitMode");
+			for (var key in {None: 0, PageWidth: 1, PageHeight: 2, FitToPage: 3}) {
+				var value = primitives.common.PageFitMode[key];
+				pageFitModes.append(jQuery("<br/><label><input name='pageFitMode' type='radio' value='" + value + "' " + (value == primitives.common.PageFitMode.FitToPage ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=pageFitMode]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Orientation Type */
+			var orientationTypes = jQuery("#orientationType");
+			for (var key in primitives.common.OrientationType) {
+				var value = primitives.common.OrientationType[key];
+				orientationTypes.append(jQuery("<br/><label><input name='orientationType' type='radio' value='" + value + "' " + (value == primitives.common.OrientationType.Top ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=orientationType]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Vertical Alignmnet */
+			var verticalAlignments = jQuery("#verticalAlignment");
+			for (var key in primitives.common.VerticalAlignmentType) {
+				var value = primitives.common.VerticalAlignmentType[key];
+				verticalAlignments.append(jQuery("<br/><label><input name='verticalAlignment' type='radio' value='" + value + "' " + (value == primitives.common.VerticalAlignmentType.Middle ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=verticalAlignment]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Horizontal Alignmnet */
+			var horizontalAlignments = jQuery("#horizontalAlignment");
+			for (var key in primitives.common.HorizontalAlignmentType) {
+				var value = primitives.common.HorizontalAlignmentType[key];
+				horizontalAlignments.append(jQuery("<br/><label><input name='horizontalAlignment' type='radio' value='" + value + "' " + (value == primitives.common.HorizontalAlignmentType.Center ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=horizontalAlignment]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Items Group By Type */
+			var arrowsDirections = jQuery("#arrowsDirection");
+			for (var key in primitives.common.GroupByType) {
+				var value = primitives.common.GroupByType[key];
+				arrowsDirections.append(jQuery("<br/><label><input name='arrowsDirection' type='radio' value='" + value + "' " + (value == primitives.common.GroupByType.Parents ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=arrowsDirection]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Connector Type */
+			var connectorTypes = jQuery("#connectorType");
+			for (var key in primitives.common.ConnectorType) {
+				var value = primitives.common.ConnectorType[key];
+				connectorTypes.append(jQuery("<br/><label><input name='connectorType' type='radio' value='" + value + "' " + (value == primitives.common.ConnectorType.Squared ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=connectorType]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Minimal Visibility */
+			var pageFitModes = jQuery("#minimalVisibility");
+			for (var key in primitives.common.Visibility) {
+				var value = primitives.common.Visibility[key];
+				pageFitModes.append(jQuery("<br/><label><input name='minimalVisibility' type='radio' value='" + value + "' " + (value == primitives.common.Visibility.Dot ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=minimalVisibility]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Selection Path Mode */
+			var selectionPathModes = jQuery("#selectionPathMode");
+			for (var key in primitives.common.SelectionPathMode) {
+				var value = primitives.common.SelectionPathMode[key];
+				selectionPathModes.append(jQuery("<br/><label><input name='selectionPathMode' type='radio' value='" + value + "' " + (value == primitives.common.SelectionPathMode.FullStack ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=selectionPathMode]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Leaves Placement Type */
+			var leavesPlacementType = jQuery("#leavesPlacementType");
+			for (var key in primitives.common.ChildrenPlacementType) {
+				var value = primitives.common.ChildrenPlacementType[key];
+				leavesPlacementType.append(jQuery("<br/><label><input name='leavesPlacementType' type='radio' value='" + value + "' " + (value == primitives.common.ChildrenPlacementType.Horizontal ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=leavesPlacementType]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Has Selector Check Box*/
+			var hasSelectorCheckbox = jQuery("#hasSelectorCheckbox");
+			for (var key in primitives.common.Enabled) {
+				var value = primitives.common.Enabled[key];
+				hasSelectorCheckbox.append(jQuery("<br/><label><input name='hasSelectorCheckbox' type='radio' value='" + value + "' " + (value == primitives.common.Enabled.True ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=hasSelectorCheckbox]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Has User Buttons */
+			var hasButtons = jQuery("#hasButtons");
+			for (var key in primitives.common.Enabled) {
+				var value = primitives.common.Enabled[key];
+				hasButtons.append(jQuery("<br/><label><input name='hasButtons' type='radio' value='" + value + "' " + (value == primitives.common.Enabled.Auto ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=hasButtons]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Show Labels */
+			var showLabels = jQuery("#showLabels");
+			for (var key in primitives.common.Enabled) {
+				var value = primitives.common.Enabled[key];
+				showLabels.append(jQuery("<br/><label><input name='showLabels' type='radio' value='" + value + "' " + (value == primitives.common.Enabled.Auto ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=showLabels]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Label Orientations */
+			var labelOrientations = jQuery("#labelOrientation");
+			for (var key in primitives.text.TextOrientationType) {
+				var value = primitives.text.TextOrientationType[key];
+				labelOrientations.append(jQuery("<br/><label><input name='labelOrientation' type='radio' value='" + value + "' " + (value == primitives.text.TextOrientationType.Horizontal ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=labelOrientation]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Label Placement */
+			var labelPlacements = jQuery("#labelPlacement");
+			for (var key in primitives.common.PlacementType) {
+				var value = primitives.common.PlacementType[key];
+				labelPlacements.append(jQuery("<br/><label><input name='labelPlacement' type='radio' value='" + value + "' " + (value == primitives.common.PlacementType.Top ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=labelPlacement]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Graphics Type */
+			var graphicsType = jQuery("#graphicsType");
+			for (var key in primitives.common.GraphicsType) {
+				var value = primitives.common.GraphicsType[key];
+				graphicsType.append(jQuery("<br/><label><input name='graphicsType' type='radio' value='" + value + "' " + (value == primitives.common.GraphicsType.SVG ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=graphicsType]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Recreate);
+			});
+
+			/* Setup & Run */
+			Setup(jQuery("#centerpanel"));
+
+			LoadItems(jQuery("#centerpanel"));
+
+		});
+
+		function Setup(selector) {
+			orgDiagram = selector.orgDiagram(GetOrgDiagramConfig());
+
+			ShowGraphicsType(selector.orgDiagram("option", "actualGraphicsType"));
+		}
+
+		function Update(selector, updateMode) {
+			selector.orgDiagram("option", GetOrgDiagramConfig());
+			selector.orgDiagram("update", updateMode);
+
+			ShowGraphicsType(selector.orgDiagram("option", "actualGraphicsType"));
+		}
+
+		function GetOrgDiagramConfig() {
+			var graphicsType = parseInt(jQuery("input:radio[name=graphicsType]:checked").val(), 10);
+			var pageFitMode = parseInt(jQuery("input:radio[name=pageFitMode]:checked").val(), 10);
+			var orientationType = parseInt(jQuery("input:radio[name=orientationType]:checked").val(), 10);
+			var minimalVisibility = parseInt(jQuery("input:radio[name=minimalVisibility]:checked").val(), 10);
+			var selectionPathMode = parseInt(jQuery("input:radio[name=selectionPathMode]:checked").val(), 10);
+			var leavesPlacementType = parseInt(jQuery("input:radio[name=leavesPlacementType]:checked").val(), 10);
+			var hasSelectorCheckbox = parseInt(jQuery("input:radio[name=hasSelectorCheckbox]:checked").val(), 10);
+			var hasButtons = parseInt(jQuery("input:radio[name=hasButtons]:checked").val(), 10);
+			var verticalAlignment = parseInt(jQuery("input:radio[name=verticalAlignment]:checked").val(), 10);
+			var horizontalAlignment = parseInt(jQuery("input:radio[name=horizontalAlignment]:checked").val(), 10);
+			var connectorType = parseInt(jQuery("input:radio[name=connectorType]:checked").val(), 10);
+			var showLabels = parseInt(jQuery("input:radio[name=showLabels]:checked").val(), 10);
+			var labelOrientation = parseInt(jQuery("input:radio[name=labelOrientation]:checked").val(), 10);
+			var labelPlacement = parseInt(jQuery("input:radio[name=labelPlacement]:checked").val(), 10);
+			var arrowsDirection = parseInt(jQuery("input:radio[name=arrowsDirection]:checked").val(), 10);
+
+			var buttons = [];
+			buttons.push(new primitives.orgdiagram.ButtonConfig("delete", "ui-icon-close", "Delete"));
+			buttons.push(new primitives.orgdiagram.ButtonConfig("properties", "ui-icon-gear", "Info"));
+			buttons.push(new primitives.orgdiagram.ButtonConfig("add", "ui-icon-person", "Add"));
+
+			return {
+				graphicsType: graphicsType,
+				pageFitMode: pageFitMode,
+				orientationType: orientationType,
+				verticalAlignment: verticalAlignment,
+				horizontalAlignment: horizontalAlignment,
+				connectorType: connectorType,
+				arrowsDirection: arrowsDirection,
+				minimalVisibility: minimalVisibility,
+				hasSelectorCheckbox: hasSelectorCheckbox,
+				selectionPathMode: selectionPathMode,
+				leavesPlacementType: leavesPlacementType,
+				hasButtons: hasButtons,
+				buttons: buttons,
+				onButtonClick: onButtonClick,
+				onCursorChanging: onCursorChanging,
+				onCursorChanged: onCursorChanged,
+				onHighlightChanging: onHighlightChanging,
+				onHighlightChanged: onHighlightChanged,
+				onSelectionChanged: onSelectionChanged,
+				itemTitleFirstFontColor: primitives.common.Colors.White,
+				itemTitleSecondFontColor: primitives.common.Colors.White,
+				showLabels: showLabels,
+				labelOrientation: labelOrientation,
+				labelPlacement: labelPlacement,
+				normalLevelShift: 30,
+				dotLevelShift: 24,
+				lineLevelShift: 24,
+				normalItemsInterval: 20,
+				dotItemsInterval: 10,
+				lineItemsInterval: 5,
+				highlightLinesColor: primitives.common.Colors.Navy,
+				highlightLinesWidth: 2,
+				highlightLinesType: primitives.common.LineType.Dashed
+			};
+		}
+
+		function getContactTemplate() {
+			var result = new primitives.orgdiagram.TemplateConfig();
+			result.name = "contactTemplate";
+
+			result.itemSize = new primitives.common.Size(220, 120);
+			result.minimizedItemSize = new primitives.common.Size(3, 3);
+			result.highlightPadding = new primitives.common.Thickness(2, 2, 2, 2);
+
+
+			var itemTemplate = jQuery(
+			  '<div class="bp-item bp-corner-all bt-item-frame">'
+				+ '<div class="bp-item bp-corner-all bp-title-frame" style="top: 2px; left: 2px; width: 216px; height: 20px;">'
+					+ '<div name="title" class="bp-item bp-title" style="top: 3px; left: 6px; width: 208px; height: 18px;">'
+					+ '</div>'
+				+ '</div>'
+				+ '<div class="bp-item bp-photo-frame" style="top: 26px; left: 2px; width: 50px; height: 60px;">'
+					+ '<img name="photo" style="height:60px; width:50px;" />'
+				+ '</div>'
+				+ '<div name="phone" class="bp-item" style="top: 26px; left: 56px; width: 162px; height: 18px; font-size: 12px;"></div>'
+				+ '<div name="email" class="bp-item" style="top: 44px; left: 56px; width: 162px; height: 18px; font-size: 12px;"></div>'
+				+ '<div name="description" class="bp-item" style="top: 62px; left: 56px; width: 162px; height: 36px; font-size: 10px;"></div>'
+			+ '</div>'
+			).css({
+				width: result.itemSize.width + "px",
+				height: result.itemSize.height + "px"
+			}).addClass("bp-item bp-corner-all bt-item-frame");
+			result.itemTemplate = itemTemplate.wrap('<div>').parent().html();
+
+			return result;
+		}
+
+		function onSelectionChanged(e, data) {
+			var selectedItems = jQuery("#centerpanel").orgDiagram("option", "selectedItems");
+			var message = "";
+			for (var index = 0; index < selectedItems.length; index += 1) {
+				var itemConfig = treeItems[selectedItems[index]];
+				if (message != "") {
+					message += ", ";
+				}
+				message += "<b>'" + itemConfig.title + "'</b>";
+			}
+			message += (data.parentItem != null ? " Parent item <b>'" + data.parentItem.title + "'" : "");
+			jQuery("#southpanel").empty().append("User selected following items: " + message);
+		}
+
+		function onHighlightChanging(e, data) {
+			var message = (data.context != null) ? "User is hovering mouse over item <b>'" + data.context.title + "'</b>." : "";
+			message += (data.parentItem != null ? " Parent item <b>'" + data.parentItem.title + "'" : "");
+
+			jQuery("#southpanel").empty().append(message);
+		}
+
+		function onHighlightChanged(e, data) {
+			var message = (data.context != null) ? "User hovers mouse over item <b>'" + data.context.title + "'</b>." : "";
+			message += (data.parentItem != null ? " Parent item <b>'" + data.parentItem.title + "'" : "");
+
+			jQuery("#southpanel").empty().append(message);
+		}
+
+		function onCursorChanging(e, data) {
+			var message = "User is clicking on item '" + data.context.title + "'.";
+			message += (data.parentItem != null ? " Parent item <b>'" + data.parentItem.title + "'" : "");
+
+			jQuery("#southpanel").empty().append(message);
+		}
+
+		function onCursorChanged(e, data) {
+			var message = "User clicked on item '" + data.context.title + "'.";
+			message += (data.parentItem != null ? " Parent item <b>'" + data.parentItem.title + "'" : "");
+			jQuery("#southpanel").empty().append(message);
+		}
+
+		function onButtonClick(e, data) {
+			var message = "User clicked <b>'" + data.name + "'</b> button for item <b>'" + data.context.title + "'</b>.";
+			message += (data.parentItem != null ? " Parent item <b>'" + data.parentItem.title + "'" : "");
+			jQuery("#southpanel").empty().append(message);
+		}
+
+		function LoadItems(selector) {
+			var items = [];
+
+			/* Create chart item as instance of ItemConfig options class and set its properties */
+			items.push(new primitives.orgdiagram.ItemConfig({ 
+				id: 0,
+				parent: null, /* if parent set to null, it is shown at the root of hierarchy */
+				title:"Root", 
+				description: "Regular root item", 
+				image: "demo/images/photos/r.png",
+				groupTitle: "Has Partners",
+				groupTitleColor: primitives.common.Colors.Red
+			}));
+
+			/* create chart items as instance of ItemConfig options class and pass options as regular noname JavaScript object */
+			items.push(new primitives.orgdiagram.ItemConfig({
+				id: 1,
+				parent: 0,
+				title: "GP 1",
+				description: "General Partner on right",
+				image: "demo/images/photos/g.png",
+				itemType: primitives.orgdiagram.ItemType.GeneralPartner,
+				adviserPlacementType: primitives.common.AdviserPlacementType.Right,
+				groupTitleColor: primitives.common.Colors.Green,
+				groupTitle: "Partner"
+			}));
+
+			items.push(new primitives.orgdiagram.ItemConfig({
+				id: 2,
+				parent: 0,
+				title: "LP 2",
+				description: "Limited Partner on right",
+				image: "demo/images/photos/l.png",
+				itemType: primitives.orgdiagram.ItemType.LimitedPartner,
+				adviserPlacementType: primitives.common.AdviserPlacementType.Right,
+				groupTitle: "Partner"
+			}));
+
+			items.push(new primitives.orgdiagram.ItemConfig({
+				id: 3,
+				parent: 0,
+				title: "LP 3",
+				description: "Limited Partner on left",
+				image: "demo/images/photos/l.png",
+				itemType: primitives.orgdiagram.ItemType.LimitedPartner,
+				adviserPlacementType: primitives.common.AdviserPlacementType.Left,
+				groupTitle: "Partner"
+			}));
+
+			/* create array of ItemConfig option classes and merge them to final collections of items */
+			items = items.concat([
+				new primitives.orgdiagram.ItemConfig({
+					id: 4,
+					parent: 0,
+					title: "Regular 1",
+					description: "Regular",
+					image: "demo/images/photos/r.png"
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 5,
+					parent: 4,
+					title: "Adviser 5",
+					description: "Adviser on right",
+					image: "demo/images/photos/a.png",
+					itemType: primitives.orgdiagram.ItemType.Adviser,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Right,
+					groupTitleColor: primitives.common.Colors.Red,
+					groupTitle: "Has Partners"
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 6,
+					parent: 5,
+					title: "GP 6",
+					description: "General Partner on right",
+					image: "demo/images/photos/g.png",
+					itemType: primitives.orgdiagram.ItemType.GeneralPartner,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Right,
+					groupTitleColor: primitives.common.Colors.Green,
+					groupTitle: "Partner"
+				})
+			]);
+
+			/* create array of ItemConfig option classes and merge them to final collections of items */
+			items = items.concat([
+			{
+				id: 7,
+				parent: 0,
+				title: "Regular 7",
+				description: "Regular",
+				image: "demo/images/photos/r.png",
+				childrenPlacementType: primitives.common.ChildrenPlacementType.Matrix,
+				groupTitle: "Has Partners",
+				groupTitleColor: primitives.common.Colors.Red
+			}, {
+				id: 8,
+				parent: 7,
+				title: "LP 8",
+				description: "Limited Partner on the right",
+				image: "demo/images/photos/l.png",
+				itemType: primitives.orgdiagram.ItemType.LimitedPartner,
+				adviserPlacementType: primitives.common.AdviserPlacementType.Right,
+				groupTitle: "Partner"
+			}, {
+				id: 9,
+				parent: 8,
+				title: "Assistant 9",
+				description: "Assistant having its own partner node",
+				image: "demo/images/photos/r.png",
+				itemType: primitives.orgdiagram.ItemType.Assistant,
+				adviserPlacementType: primitives.common.AdviserPlacementType.Left
+			}, {
+				id: 10,
+				parent: 9,
+				title: "Adviser 10",
+				description: "Adviser on the left",
+				image: "demo/images/photos/a.png",
+				itemType: primitives.orgdiagram.ItemType.Adviser,
+				adviserPlacementType: primitives.common.AdviserPlacementType.Left,
+				groupTitleColor: primitives.common.Colors.Red,
+				groupTitle: "Has Partners"
+			}, {
+				id: 11,
+				parent: 10,
+				title: "GP 11",
+				description: "General Partner on right",
+				image: "demo/images/photos/g.png",
+				itemType: primitives.orgdiagram.ItemType.GeneralPartner,
+				adviserPlacementType: primitives.common.AdviserPlacementType.Right,
+				groupTitleColor: primitives.common.Colors.Green,
+				groupTitle: "Partner"
+			}
+			]);
+
+
+			/* create array of ItemConfig option classes and merge them to final collections of items */
+			items = items.concat([
+				new primitives.orgdiagram.ItemConfig({
+					id: 12,
+					parent: 7,
+					title: "GP 12",
+					description: "General Partner on right",
+					image: "demo/images/photos/g.png",
+					itemType: primitives.orgdiagram.ItemType.GeneralPartner,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Right,
+					groupTitleColor: primitives.common.Colors.Green,
+					groupTitle: "Partner"
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 13,
+					parent: 12,
+					title: "Adviser 13",
+					description: "Adviser",
+					image: "demo/images/photos/a.png",
+					itemType: primitives.orgdiagram.ItemType.Adviser,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Right,
+					groupTitle: "Has Partners",
+					groupTitleColor: primitives.common.Colors.Red
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 14,
+					parent: 13,
+					title: "GP 14",
+					description: "General Partner on right",
+					image: "demo/images/photos/g.png",
+					itemType: primitives.orgdiagram.ItemType.GeneralPartner,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Right,
+					groupTitleColor: primitives.common.Colors.Green,
+					groupTitle: "Partner"
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 15,
+					parent: 13,
+					title: "Adviser 15",
+					description: "Adviser",
+					image: "demo/images/photos/a.png",
+					itemType: primitives.orgdiagram.ItemType.Adviser,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Right
+				})
+				, new primitives.orgdiagram.ItemConfig({
+					id: 16,
+					parent: 13,
+					title: "Regular 16",
+					description: "Regular",
+					image: "demo/images/photos/r.png",
+					childrenPlacementType: primitives.common.ChildrenPlacementType.Matrix
+				})
+				,new primitives.orgdiagram.ItemConfig({
+					id: 17,
+					parent: 16,
+					title: "Regular 17",
+					description: "Regular",
+					image: "demo/images/photos/r.png",
+					itemType: primitives.orgdiagram.ItemType.Regular /* We explisitly set iteType of regular item */
+				})
+				,
+				new primitives.orgdiagram.ItemConfig({
+					id: 18,
+					parent: 12,
+					title: "Assistant 18",
+					description: "Assistant item on right",
+					image: "demo/images/photos/s.png",
+					itemType: primitives.orgdiagram.ItemType.Assistant,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Right
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 19,
+					parent: 12,
+					title: "Assistant 19",
+					description: "Assistant item on right",
+					image: "demo/images/photos/s.png",
+					itemType: primitives.orgdiagram.ItemType.Regular,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Right
+				})
+			]);
+
+			/* create array of items and merge them to final collections of items */
+			items = items.concat([
+				{
+					id: 20,
+					parent: 7,
+					title: "GP 20",
+					description: "General Partner on right",
+					image: "demo/images/photos/g.png",
+					itemType: primitives.orgdiagram.ItemType.GeneralPartner,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Right,
+					groupTitleColor: primitives.common.Colors.Green,
+					groupTitle: "Partner"
+				}, {
+					id: 21,
+					parent: 20,
+					title: "Assistant 21",
+					description: "Assistant item on right",
+					image: "demo/images/photos/s.png",
+					itemType: primitives.orgdiagram.ItemType.Assistant,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Right
+				}, {
+					id: 22,
+					parent: 20,
+					title: "Regular 22",
+					description: "Regular item assigned to Partner is shown as its Assistant.",
+					image: "demo/images/photos/r.png",
+					itemType: primitives.orgdiagram.ItemType.Regular
+				}, {
+					id: 23,
+					parent: 21,
+					title: "Regular 23",
+					description: "Regular item assigned to assistant.",
+					image: "demo/images/photos/r.png",
+					itemType: primitives.orgdiagram.ItemType.Regular
+				}, {
+					id: 24,
+					parent: 21,
+					title: "Regular 24",
+					description: "Regular item assigned to assistant.",
+					image: "demo/images/photos/r.png",
+					itemType: primitives.orgdiagram.ItemType.Regular
+				}, {
+					id: 25,
+					parent: 21,
+					title: "Regular 25",
+					description: "Regular item assigned to assistant.",
+					image: "demo/images/photos/r.png",
+					itemType: primitives.orgdiagram.ItemType.Regular
+				}
+			]);
+
+			/* Add assitants and adviser to item which has Partners attached */
+			/* create array of items and merge them to final collections of items */
+			items = items.concat([
+				{
+					id: 26,
+					parent: 7,
+					title: "Adviser 26",
+					description: "Adviser on left",
+					image: "demo/images/photos/a.png",
+					itemType: primitives.orgdiagram.ItemType.Adviser,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Left
+				}, {
+					id: 27,
+					parent: 7,
+					title: "Adviser 27",
+					description: "Adviser on right",
+					image: "demo/images/photos/a.png",
+					itemType: primitives.orgdiagram.ItemType.Adviser,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Right
+				}, {
+					id: 28,
+					parent: 7,
+					title: "Assistant 28",
+					description: "Assistant on right",
+					image: "demo/images/photos/s.png",
+					itemType: primitives.orgdiagram.ItemType.Assistant,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Right
+				}, {
+					id: 29,
+					parent: 7,
+					title: "Assistant 29",
+					description: "Assistant on left",
+					image: "demo/images/photos/s.png",
+					itemType: primitives.orgdiagram.ItemType.Assistant,
+					adviserPlacementType: primitives.common.AdviserPlacementType.Left
+				}
+			]);
+
+			/* Add some regular children to item having Partners attached 
+			   These chidlren are shared by their parent and paarents partner items. */
+
+			var commonChildren = [];
+
+			for (var index = 30; index <= 42; index += 1) {
+				commonChildren.push(index);
+				items.push({
+					id: index,
+					parent: 7,
+					title: "Regular " + index,
+					description: "Regular item assigned to regular item having partners",
+					image: "demo/images/photos/r.png"
+				});
+			}
+
+
+			var annotations = [];
+
+			connectorAnnotation = new primitives.orgdiagram.ConnectorAnnotationConfig(31, 7);
+			connectorAnnotation.label = "<div class='bp-badge' style='width:10px; height:10px;background-color:red; color: white;'>1</div>Parent";
+			connectorAnnotation.labelSize = new primitives.common.Size(70, 30);
+			connectorAnnotation.connectorShapeType = primitives.common.ConnectorShapeType.OneWay;
+			connectorAnnotation.color = primitives.common.Colors.Red;
+			connectorAnnotation.offset = 0;
+			connectorAnnotation.lineWidth = 2;
+			connectorAnnotation.lineType = primitives.common.LineType.Dashed;
+			connectorAnnotation.selectItems = false;
+			annotations.push(connectorAnnotation);
+
+			var backgroundAnnotation = new primitives.orgdiagram.BackgroundAnnotationConfig([30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 18, 19]);
+			backgroundAnnotation.borderColor = "#f8e5f9";
+			backgroundAnnotation.fillColor = "#e5f9f8";
+			backgroundAnnotation.lineWidth = 2;
+			backgroundAnnotation.selectItems = true;
+			backgroundAnnotation.lineType = primitives.common.LineType.Solid;
+			annotations.push(backgroundAnnotation);
+
+			backgroundAnnotation = new primitives.orgdiagram.BackgroundAnnotationConfig([21, 22, 23, 24, 25]);
+			backgroundAnnotation.borderColor = "#ccffb3";
+			backgroundAnnotation.fillColor = "#effda4";
+			backgroundAnnotation.lineWidth = 2;
+			backgroundAnnotation.selectItems = false;
+			backgroundAnnotation.lineType = primitives.common.LineType.Solid;
+			annotations.push(backgroundAnnotation);
+
+			backgroundAnnotation = new primitives.orgdiagram.BackgroundAnnotationConfig([13, 14]);
+			backgroundAnnotation.borderColor = "#e3c5ad";
+			backgroundAnnotation.fillColor = "#f6eeeb";
+			backgroundAnnotation.lineWidth = 2;
+			backgroundAnnotation.selectItems = true;
+			backgroundAnnotation.includeChildren = true;
+			backgroundAnnotation.lineType = primitives.common.LineType.Solid;
+			annotations.push(backgroundAnnotation);
+
+			pathAnnotation = new primitives.orgdiagram.HighlightPathAnnotationConfig([1, 35]);
+			pathAnnotation.selectItems = true;
+			annotations.push(pathAnnotation);
+
+			/* create hash of items */
+			var index, len;
+			for (index = 0, len = items.length; index < len; index += 1) {
+				treeItems[items[index].id] = items[index];
+			}
+
+			selector.orgDiagram("option", {
+				items: items,
+				cursorItem: 0,
+				annotations: annotations
+			});
+			selector.orgDiagram("update");
+		}
+
+		function ShowGraphicsType(graphicsType) {
+			var result = null;
+
+			switch (graphicsType) {
+				case primitives.common.GraphicsType.SVG:
+					result = "SVG";
+					break;
+				case primitives.common.GraphicsType.Canvas:
+					result = "Canvas";
+					break;
+				case primitives.common.GraphicsType.VML:
+					result = "VML";
+					break;
+			}
+			jQuery("#actualGraphicsType").empty().append("Graphics Type: " + result);
+		}
+
+	</script>
+	<!-- /header -->
+</head>
+<body style="font-size: 12px">
+	<div id="contentpanel" style="padding: 0px;">
+		<!--bpcontent-->
+		<div id="westpanel" style="padding: 5px; margin: 0px; border-style: solid; font-size: 12px; border-color: grey; border-width: 1px; overflow: scroll; -webkit-overflow-scrolling: touch;">
+			<h2>General & Limited Partners item types demo</h2>
+			<p>Organizational chart provides simplified support for multiple parents, multiple managers or multiple coheads in hierarchy. Child item defined as General partner added to the same level as its parent item and logically shares children. General & Limited item types cannot have their own children, but may have Advisers & Assistants. Limited partner has no connection to parent but it shares children in hierarchy.</p>
+			<p>Chart demonstrates usage of on-screen annotations. They are defined as a stand alone collection of objects which are associated with chart items by referencing items id-s</p>
+			<h3>Auto Layout Options</h3>
+			<p id="pageFitMode">Page Fit Mode</p>
+			<p id="orientationType">Orientation</p>
+			<p id="verticalAlignment">Items Vertical Alignment</p>
+			<p id="horizontalAlignment">Items Horizontal Alignment</p>
+			<p id="leavesPlacementType">Leaves placement</p>
+			<p id="minimalVisibility">Minimal nodes visibility</p>
+			<p id="selectionPathMode">Selection Path Mode</p>
+			<h3>Connectors</h3>
+			<p id="arrowsDirection">Arrows Direction</p>
+			<p id="connectorType">Connectors</p>
+			<h3>Item Labels</h3>
+			<p id="showLabels">Show Labels</p>
+			<p id="labelOrientation">Label Orientation</p>
+			<p id="labelPlacement">Label Placement</p>
+			<h3>Default Template Options</h3>
+			<p id="hasButtons">User buttons</p>
+			<p id="hasSelectorCheckbox">Selection check box</p>
+			<h3>Rendering Mode</h3>
+			<p id="graphicsType">Graphics</p>
+			<p id="actualGraphicsType"></p>
+		</div>
+		<div id="centerpanel" style="overflow: hidden; padding: 0px; margin: 0px; border: 0px;">
+		</div>
+		<div id="southpanel">
+		</div>
+		<!--/bpcontent-->
+	</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEA,OAAQ;EACN,OAAO,EAAE,YAAY;EAErB,SAAE;IACA,SAAS,EAAE,IAAI;IACf,OAAO,EAAE,KAAK;IACd,MAAM,EAAE,OAAO;IACf,KAAK,EATK,OAAO;IAUjB,eAAe,EAAE,IAAI",
+"sources": ["starrr.scss"],
+"names": [],
+"file": "starrr.css"
+}

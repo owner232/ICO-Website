@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html> 
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Print Preview Diagram</title>
+	<link rel="stylesheet" href="demo/js/jquery/ui-lightness/jquery-ui-1.10.2.custom.css" />
+	<script type="text/javascript" src="demo/js/jquery/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="demo/js/jquery/jquery-ui-1.10.2.custom.min.js"></script>
+
+	<!-- # include file="src/src.primitives.html"-->
+
+	<script type="text/javascript" src="demo/js/primitives.min.js?3600"></script>
+	<link href="demo/css/primitives.latest.css?3600" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="demo/js/famdata.js?a=1"></script>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			var options = famdata;
+			jQuery.extend(options, {
+				navigationMode: primitives.common.NavigationMode.Inactive,
+				cursorItem: null,
+				highlightItem: null,
+				hasSelectorCheckbox: primitives.common.Enabled.False,
+				hasButtons: primitives.common.Enabled.False,
+				pageFitMode: primitives.common.PageFitMode.PrintPreview,
+				elbowType: primitives.common.ElbowType.Round,
+				normalLevelShift: 30,
+				dotLevelShift: 30,
+				lineLevelShift: 24,
+				normalItemsInterval: 20,
+				dotItemsInterval: 10,
+				lineItemsInterval: 4,
+				linesWidth: 1,
+				linesColor: "black",
+				cousinsIntervalMultiplier: 1,
+				arrowsDirection: primitives.common.GroupByType.Parents
+			});
+
+			jQuery("#diagram").famDiagram(options);
+		});
+	</script>
+</head>
+<body>
+	<div id="diagram" style="border-style: dotted; border-width: 1px;"></div>
+</body>
+</html>

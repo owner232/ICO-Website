@@ -1,0 +1,43 @@
+/*.left_col{background:#1b252f;}
+.nav.side-menu > li{background:#343f44;border:1px solid #1b252f;}
+.nav.side-menu > li.active, .nav.side-menu > li.current-page{background: #1480e4;color:#fff;}
+.nav.side-menu > li.active, .nav.side-menu > li.current-page{border-right: 5px solid #1480e4;}
+.nav.child_menu > li > a, .nav.side-menu > li > a{color:#fff;}
+.nav.side-menu > li:hover{background:#1480e4;}
+.nav_menu{background: #333a43;}
+.toggle a i{color:#fff;}
+.top_nav li a i{color:#fff;}
+.top_menu_user_name{color:#fff;}
+.breadcrumb_text h1{color:#000;}*/
+.today{float:left;}
+.btc li{padding-right:16px;font-size:18px;font-weight:500;color:#000;}
+.btc{padding-top:15px;}
+.heading p{display: inline-block;padding-left: 10px;}
+.top_box h2{text-align: center;}
+.top_box.sec{margin:0;}
+.top_box{background:#1480e4;margin-left: 10px;width:486px;margin-right:21px;margin-bottom:20px;}
+.top_box h5, .top_box h2{color:#fff;}
+.clk .fa{color:#fff;font-size:65px;display:inline-block;padding:10px 0;}
+.clock h5{display: inline-block;padding-top:12px;vertical-align:top;padding-left:10px;font-size:16px;}
+.trans{background: #5a5e67;color:#fff;width:993px;margin:0 10px 20px;}
+.top_links input{background: #5a5e67;color:#fff;width:79%;border:none;padding:10px;border-radius:5px 0 0 5px;float:left;}
+.top_links button{background: #50C1CF ;color:#fff;width:20%;border:none;padding:10px 0;margin:0;border-radius:0 5px 5px 0;}
+.pdf{background: #50C1CF ;color:#fff;border:none;padding:10px;width:25%;border-radius:5px;margin:15px 0 30px 0;}
+.pdf a{color:#fff;}
+.timer ul li{display: inline-block;list-style-type: none;color:#fff;}
+.timer{text-align:right;background: #5a5e67;border-radius:5px;padding:10px 65px 10px 20px;float:right;width:260px;margin-right: 10px;}
+.timer .time_count li{padding-right: 6px;}
+
+.top_bar{width:202px;}
+.tile-stats{min-height:117px;}
+.tile-stats .count{padding:10px;}
+
+.refer-link button {
+    font-size: 13px;
+    padding: 0 15px;
+}
+.alert-warning{background: #50C1CF;border-color: #50C1CF;}
+.input-number.coin-amount{margin:10px;width:93%;}
+.promo-code-form .btn{padding:2px 12px;}
+.btn.btn-primary.btn-raised.btn-block.buy-now{width:15%;margin:0 auto;}
+.list-currency select{padding:10px;}

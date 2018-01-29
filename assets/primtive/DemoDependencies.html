@@ -1,0 +1,386 @@
+﻿<!DOCTYPE html> 
+<html>
+<head>
+	<title>jQuery Widget Dependencies Chart Demo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="demo/js/jquery/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="demo/js/jquery/jquery-ui-1.10.2.custom.min.js"></script>
+	<link href="demo/js/jquery/ui-lightness/jquery-ui-1.10.2.custom.css" media="screen" rel="stylesheet" type="text/css" />
+
+	<!-- jQuery UI Layout -->
+	<script type="text/javascript" src="demo/jquerylayout/jquery.layout-latest.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="demo/jquerylayout/layout-default-latest.css" />
+
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			jQuery('body').layout(
+			{
+				center__paneSelector: "#contentpanel"
+			});
+		});
+	</script>
+
+	<!-- header -->
+
+
+	<!-- # include file="src/src.primitives.html"-->
+
+	<link href="demo/css/primitives.latest.css?3600" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="demo/js/primitives.min.js?3600"></script>
+	<script  type="text/javascript" src="demo/js/dependencies.js"></script>
+
+	<script type="text/javascript">
+		var famDiagram = null;
+		var fromItem = 0;
+		var toItem = 0;
+		var treeItems = {};
+
+		jQuery(document).ready(function () {
+			jQuery.ajaxSetup({
+				cache: false
+			});
+
+			jQuery('#contentpanel').layout(
+			{
+				center__paneSelector: "#centerpanel"
+				, south__paneSelector: "#southpanel"
+				, south__resizable: false
+				, south__closable: false
+				, south__spacing_open: 0
+				, south__size: 50
+				, west__size: 200
+				, west__paneSelector: "#westpanel"
+				, west__resizable: true
+				, center__onresize: function () {
+					if (famDiagram != null) {
+						jQuery("#centerpanel").famDiagram("update", primitives.common.UpdateMode.Refresh);
+					}
+				}
+			});
+
+			/* Page Fit Mode */
+			var pageFitModes = jQuery("#pageFitMode");
+			for (var key in { None: 0, PageWidth: 1, PageHeight: 2, FitToPage: 3, SelectionOnly: 6 }) {
+				var value = primitives.common.PageFitMode[key];
+				pageFitModes.append(jQuery("<br/><label><input name='pageFitMode' type='radio' value='" + value + "' " + (value == primitives.common.PageFitMode.SelectionOnly ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=pageFitMode]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Orientation Type */
+			var orientationTypes = jQuery("#orientationType");
+			for (var key in primitives.common.OrientationType) {
+				var value = primitives.common.OrientationType[key];
+				orientationTypes.append(jQuery("<br/><label><input name='orientationType' type='radio' value='" + value + "' " + (value == primitives.common.OrientationType.Left ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=orientationType]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Items Group By Type */
+			var groupByTypes = jQuery("#groupByType");
+			for (var key in primitives.common.GroupByType) {
+				var value = primitives.common.GroupByType[key];
+				if (value != primitives.common.GroupByType.None) {
+					groupByTypes.append(jQuery("<br/><label><input name='groupByType' type='radio' value='" + value + "' " + (value == primitives.common.GroupByType.Children ? "checked" : "") + " />" + key + "</label>"));
+				}
+			};
+
+			jQuery("input:radio[name=groupByType]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Arrows Direction */
+			var arrowsDirections = jQuery("#arrowsDirection");
+			for (var key in primitives.common.GroupByType) {
+				var value = primitives.common.GroupByType[key];
+				arrowsDirections.append(jQuery("<br/><label><input name='arrowsDirection' type='radio' value='" + value + "' " + (value == primitives.common.GroupByType.None ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=arrowsDirection]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+
+			/* Vertical Alignmnet */
+			var verticalAlignments = jQuery("#verticalAlignment");
+			for (var key in primitives.common.VerticalAlignmentType) {
+				var value = primitives.common.VerticalAlignmentType[key];
+				verticalAlignments.append(jQuery("<br/><label><input name='verticalAlignment' type='radio' value='" + value + "' " + (value == primitives.common.VerticalAlignmentType.Middle ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=verticalAlignment]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Minimal Visibility */
+			var pageFitModes = jQuery("#minimalVisibility");
+			for (var key in primitives.common.Visibility) {
+				var value = primitives.common.Visibility[key];
+				pageFitModes.append(jQuery("<br/><label><input name='minimalVisibility' type='radio' value='" + value + "' " + (value == primitives.common.Visibility.Dot ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=minimalVisibility]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Selection Path Mode */
+			var selectionPathModes = jQuery("#selectionPathMode");
+			for (var key in primitives.common.SelectionPathMode) {
+				var value = primitives.common.SelectionPathMode[key];
+				selectionPathModes.append(jQuery("<br/><label><input name='selectionPathMode' type='radio' value='" + value + "' " + (value == primitives.common.SelectionPathMode.FullStack ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=selectionPathMode]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Has Selector Check Box*/
+			var hasSelectorCheckbox = jQuery("#hasSelectorCheckbox");
+			for (var key in primitives.common.Enabled) {
+				var value = primitives.common.Enabled[key];
+				hasSelectorCheckbox.append(jQuery("<br/><label><input name='hasSelectorCheckbox' type='radio' value='" + value + "' " + (value == primitives.common.Enabled.True ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=hasSelectorCheckbox]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+			/* Has User Buttons */
+			var hasButtons = jQuery("#hasButtons");
+			for (var key in primitives.common.Enabled) {
+				var value = primitives.common.Enabled[key];
+				hasButtons.append(jQuery("<br/><label><input name='hasButtons' type='radio' value='" + value + "' " + (value == primitives.common.Enabled.Auto ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=hasButtons]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Refresh);
+			});
+
+
+			/* Graphics Type */
+			var graphicsType = jQuery("#graphicsType");
+			for (var key in primitives.common.GraphicsType) {
+				var value = primitives.common.GraphicsType[key];
+				graphicsType.append(jQuery("<br/><label><input name='graphicsType' type='radio' value='" + value + "' " + (value == primitives.common.GraphicsType.SVG ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=graphicsType]").change(function () {
+				Update(jQuery("#centerpanel"), primitives.common.UpdateMode.Recreate);
+			});
+
+			/* Setup & Run */
+			Setup(jQuery("#centerpanel"));
+
+			LoadItems(jQuery("#centerpanel"));
+
+		});
+
+		function Setup(selector) {
+			famDiagram = selector.famDiagram(GetOrgDiagramConfig());
+
+			ShowGraphicsType(selector.famDiagram("option", "actualGraphicsType"));
+		}
+
+		function Update(selector, updateMode) {
+			selector.famDiagram("option", GetOrgDiagramConfig());
+			selector.famDiagram("update", updateMode);
+
+			ShowGraphicsType(selector.famDiagram("option", "actualGraphicsType"));
+		}
+
+		function GetOrgDiagramConfig() {
+			var graphicsType = parseInt(jQuery("input:radio[name=graphicsType]:checked").val(), 10);
+			var pageFitMode = parseInt(jQuery("input:radio[name=pageFitMode]:checked").val(), 10);
+			var orientationType = parseInt(jQuery("input:radio[name=orientationType]:checked").val(), 10);
+			var minimalVisibility = parseInt(jQuery("input:radio[name=minimalVisibility]:checked").val(), 10);
+			var selectionPathMode = parseInt(jQuery("input:radio[name=selectionPathMode]:checked").val(), 10);
+			var hasSelectorCheckbox = parseInt(jQuery("input:radio[name=hasSelectorCheckbox]:checked").val(), 10);
+			var hasButtons = parseInt(jQuery("input:radio[name=hasButtons]:checked").val(), 10);
+			var verticalAlignment = parseInt(jQuery("input:radio[name=verticalAlignment]:checked").val(), 10);
+			var arrowsDirection = parseInt(jQuery("input:radio[name=arrowsDirection]:checked").val(), 10);
+			var groupByType = parseInt(jQuery("input:radio[name=groupByType]:checked").val(), 10);
+
+			var buttons = [];
+
+			var linesPalette = [];
+			linesPalette.push(new primitives.famdiagram.PaletteItemConfig({ lineColor: "#C6C6C6", lineWidth: 1, lineType: primitives.common.LineType.Solid })); //1
+			linesPalette.push(new primitives.famdiagram.PaletteItemConfig({ lineColor: "#A5A5A5", lineWidth: 1, lineType: primitives.common.LineType.Dashed })); //4
+			linesPalette.push(new primitives.famdiagram.PaletteItemConfig({ lineColor: "#848484", lineWidth: 1, lineType: primitives.common.LineType.Solid })); //7
+			linesPalette.push(new primitives.famdiagram.PaletteItemConfig({ lineColor: "#646464", lineWidth: 1, lineType: primitives.common.LineType.Dashed })); //10
+			linesPalette.push(new primitives.famdiagram.PaletteItemConfig({ lineColor: "#454545", lineWidth: 1, lineType: primitives.common.LineType.Solid })); //13
+
+			var templates = [getContactTemplate()];
+
+			return {
+				graphicsType: graphicsType,
+				pageFitMode: pageFitMode,
+				orientationType: orientationType,
+				verticalAlignment: verticalAlignment,
+				minimalVisibility: minimalVisibility,
+				hasSelectorCheckbox: hasSelectorCheckbox,
+				selectionPathMode: selectionPathMode,
+				arrowsDirection: arrowsDirection,
+				groupByType: groupByType,
+				hasButtons: hasButtons,
+				buttons: buttons,
+				onButtonClick: onButtonClick,
+				onCursorChanging: onCursorChanging,
+				onCursorChanged: onCursorChanged,
+				onHighlightChanging: onHighlightChanging,
+				onHighlightChanged: onHighlightChanged,
+				onSelectionChanged: onSelectionChanged,
+				itemTitleFirstFontColor: primitives.common.Colors.White,
+				itemTitleSecondFontColor: primitives.common.Colors.White,
+				normalLevelShift: 20,
+				dotLevelShift: 12,
+				lineLevelShift: 12,
+				normalItemsInterval: 12,
+				dotItemsInterval: 6,
+				lineItemsInterval: 6,
+				highlightLinesColor: primitives.common.Colors.Red,
+				linesWidth: 1.2,
+				linesColor: "black",
+				showLabels: primitives.common.Enabled.False,
+				linesPalette: linesPalette,
+				templates: templates,
+				defaultTemplateName: "contactTemplate",
+				cousinsIntervalMultiplier: 1,
+				selectionPathMode: primitives.common.SelectionPathMode.None
+			};
+		}
+
+		function getContactTemplate() {
+			var result = new primitives.famdiagram.TemplateConfig();
+			result.name = "contactTemplate";
+
+			result.itemSize = new primitives.common.Size(120, 100);
+			result.minimizedItemSize = new primitives.common.Size(6, 6);
+			result.highlightPadding = new primitives.common.Thickness(2, 2, 2, 2);
+			return result;
+		}
+
+
+		function getParentsList(data) {
+			var message = "",
+				index, len;
+
+			if (data.parentItems.length > 0) {
+				message += " Parent item <b>";
+				for (index = 0, len = data.parentItems.length; index < len; index += 1) {
+					if (index > 0) {
+						message += ", ";
+					}
+					message += "'" + data.parentItems[index].title + "'";
+				}
+				message += "</b>";
+			}
+
+			return message;
+		};
+
+		function onSelectionChanged(e, data) {
+			var selectedItems = jQuery("#centerpanel").famDiagram("option", "selectedItems");
+			var message = "";
+			for (var index = 0; index < selectedItems.length; index += 1) {
+				var itemConfig = selectedItems[index];
+				if (message != "") {
+					message += ", ";
+				}
+				message += "<b>'" + itemConfig.title + "'</b>";
+			}
+			message += getParentsList(data);
+			jQuery("#southpanel").empty().append("User selected following items: " + message);
+		}
+
+		function onHighlightChanging(e, data) {
+			var message = (data.context != null) ? "User is hovering mouse over item <b>'" + data.context.title + "'</b>." : "";
+			message += getParentsList(data);
+
+			jQuery("#southpanel").empty().append(message);
+		}
+
+		function onHighlightChanged(e, data) {
+			var message = (data.context != null) ? "User hovers mouse over item <b>'" + data.context.title + "'</b>." : "";
+			message += getParentsList(data);
+
+			jQuery("#southpanel").empty().append(message);
+		}
+
+		function onCursorChanging(e, data) {
+			var message = "User is clicking on item '" + data.context.title + "'.";
+			message += getParentsList(data);
+
+			jQuery("#southpanel").empty().append(message);
+		}
+
+		function onCursorChanged(e, data) {
+			var message = "User clicked on item '" + data.context.title + "'.";
+			message += getParentsList(data);
+			jQuery("#southpanel").empty().append(message);
+		}
+
+		function onButtonClick(e, data) {
+
+		}
+
+		function LoadItems(selector) {
+			selector.famDiagram("option", {
+				items: famdata,
+				cursorItem: 72
+			});
+			selector.famDiagram("update");
+		}
+
+		function ShowGraphicsType(graphicsType) {
+			var result = null;
+
+			switch (graphicsType) {
+				case primitives.common.GraphicsType.SVG:
+					result = "SVG";
+					break;
+				case primitives.common.GraphicsType.Canvas:
+					result = "Canvas";
+					break;
+				case primitives.common.GraphicsType.VML:
+					result = "VML";
+					break;
+			}
+			jQuery("#actualGraphicsType").empty().append("Graphics Type: " + result);
+		}
+
+	</script>
+	<!-- /header -->
+</head>
+<body style="font-size: 12px">
+	<div id="contentpanel" style="padding: 0px;">
+		<!--bpcontent-->
+		<div id="westpanel" style="padding: 5px; margin: 0px; border-style: solid; font-size: 12px; border-color: grey; border-width: 1px; overflow: scroll; -webkit-overflow-scrolling: touch;">
+			<h2>Dependencies Diagram Demo</h2>
+			<p>DAG visualization, Bayesian Networks Visualization in form of multi-parent hierarchical chart. This demo has over 400 nodes.</p>
+			<h3>Auto Layout Options</h3>
+			<p id="pageFitMode">Page Fit Mode</p>
+			<p id="groupByType">Group by option defines node placement in layout close to its parents or children when node is linked across multiple levels in hierarchy.</p>
+			<p id="orientationType">Orientation</p>
+			<p id="verticalAlignment">Items Vertical Alignment</p>
+			<p id="arrowsDirection">Arrows Direction</p>
+			<p id="minimalVisibility">Minimal nodes visibility</p>
+			<p id="selectionPathMode">Selection Path Mode</p>
+			<h3>Default Template Options</h3>
+			<p id="hasButtons">User buttons</p>
+			<p id="hasSelectorCheckbox">Selection check box</p>
+			<h3>Rendering Mode</h3>
+			<p id="graphicsType">Graphics</p>
+			<p id="actualGraphicsType"></p>
+		</div>
+		<div id="centerpanel" style="overflow: hidden; padding: 0px; margin: 0px; border: 0px;">
+		</div>
+		<div id="southpanel">
+		</div>
+		<!--/bpcontent-->
+	</div>
+</body>
+</html>

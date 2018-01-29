@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html> 
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>Adviser Partner Item Type</title>
+
+	<link rel="stylesheet" href="demo/js/jquery/ui-lightness/jquery-ui-1.10.2.custom.css" />
+	<script type="text/javascript" src="demo/js/jquery/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="demo/js/jquery/jquery-ui-1.10.2.custom.min.js"></script>
+
+	<!-- # include file="src/src.primitives.html"-->
+	<script type="text/javascript" src="demo/js/primitives.min.js?3600"></script>
+	<link href="demo/css/primitives.latest.css?3600" media="screen" rel="stylesheet" type="text/css" />
+
+	<script type='text/javascript'>//<![CDATA[ 
+		$(window).load(function () {
+			var options = new primitives.orgdiagram.Config();
+
+			var items = [
+				new primitives.orgdiagram.ItemConfig({
+					id: 0,
+					parent: null,
+					title: "Scott Aasrud",
+					description: "VP, Public Sector",
+					image: "demo/images/photos/a.png"
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 1,
+					parent: 0,
+					title: "Robert Canon",
+					description: "Adviser Partner",
+					image: "demo/images/photos/z.png",
+					itemType: primitives.orgdiagram.ItemType.AdviserPartner,
+					adviserPlacementType: primitives.orgdiagram.AdviserPlacementType.Right,
+					groupTitle: "Partner"
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 2,
+					parent: 0,
+					title: "Fritz Stuger",
+					description: "Adviser Partner item",
+					image: "demo/images/photos/y.png",
+					itemType: primitives.orgdiagram.ItemType.AdviserPartner,
+					adviserPlacementType: primitives.orgdiagram.AdviserPlacementType.Left,
+					groupTitle: "Partner"
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 3,
+					parent: 0,
+					title: "Ted Lucas",
+					description: "VP, Human Resources",
+					image: "demo/images/photos/b.png"
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 4,
+					parent: 3,
+					title: "Robert Canon 2",
+					description: "Adviser Partner item",
+					image: "demo/images/photos/z.png",
+					itemType: primitives.orgdiagram.ItemType.AdviserPartner,
+					adviserPlacementType: primitives.orgdiagram.AdviserPlacementType.Right,
+					groupTitle: "Partner"
+				}),
+				new primitives.orgdiagram.ItemConfig({
+					id: 5,
+					parent: 3,
+					title: "Ted Lucas 2",
+					description: "VP, Human Resources",
+					image: "demo/images/photos/b.png"
+				})
+			];
+
+			options.items = items;
+			options.cursorItem = 0;
+			options.hasSelectorCheckbox = primitives.common.Enabled.True;
+			options.pageFitMode = primitives.orgdiagram.PageFitMode.None;
+			options.arrowsDirection = primitives.common.GroupByType.Parents;
+
+			jQuery("#basicdiagram").orgDiagram(options);
+		});//]]>  
+
+	</script>
+</head>
+<body>
+	<div id="basicdiagram" style="width: 640px; height: 480px; border-style: dotted; border-width: 1px;" />
+</body>
+</html>

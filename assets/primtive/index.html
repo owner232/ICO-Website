@@ -1,0 +1,122 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml" style="margin: 0; padding: 0; height: 100%; overflow: hidden;">
+<head>
+	<title>Test Layout</title>
+	<link rel="stylesheet" href="demo/js/jquery/ui-lightness/jquery-ui-1.10.2.custom.css" />
+	<script type="text/javascript" src="demo/js/jquery/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="demo/js/jquery/jquery-ui-1.10.2.custom.js"></script>
+</head>
+<script>
+	jQuery(document).ready(function () {
+		jQuery("#combobox").change(function () {
+			jQuery("#content").attr('src', jQuery("#combobox").val());
+			jQuery("#link").attr('href', jQuery("#combobox").val());
+			jQuery("#link").text(jQuery("#combobox").val());
+		});
+	});
+</script>
+
+<body style="margin: 0; padding: 0; height: 100%; overflow: hidden;">
+	<div style="position: absolute; left: 0; top: 0; right: 0; height: 30px;">
+		<div class="ui-widget">
+			<label>&nbsp;<a href="http://www.basicprimitives.com">BASIC PRIMITIVES</a>&nbsp;v3.6.0:</label>
+			<select id="combobox" style="margin-top:2px;">
+				<option disabled>ORGANIZATIONAL CHART DEMOS:</option>
+				<option value="DemoLargeHierarchy.html">Large Hierarchy</option>
+				<option value="DemoDynamicLoading.html">Dynamic Data Loading Demo</option>
+				<option value="DemoEditor.html">Editor</option>
+				<option value="DemoVerticalLayout.html">Vertical Layout</option>
+				<option value="DemoCrossTeamGroup.html">Cross Team Working Group</option>
+				<option value="DemoDragNDrop.html">Drag & Drop</option>
+				<option value="DemoPartners.html">Partners & Annotations</option>
+				<option value="DemoOrientation.html">Selection checkbox inside item template</option>
+				<option value="DemoBootstrap.html">Bootstrap</option>
+				<option value="DemoPDFKitPlugins.html">PDF Generation and Download Demo</option>
+
+				<option disabled></option>
+				<option disabled>FAMILY CHART DEMOS:</option>
+				<option value="DemoFamily.html">Family Chart with Annotations</option>
+				<option value="DemoFinancialOwnership.html">Financial Ownership Chart</option>
+				<option value="DemoDependencies.html">Dependencies Chart</option>
+
+				<option disabled></option>
+				<option disabled>CREATE & UPDATE USE CASES:</option>
+				<option value="CaseFirstOrganizationalChart.html">First Organizational Chart</option>
+				<option value="CaseFirstFamilyChart.html">First Family Chart</option>
+				<option value="CaseAddingNewItemsToChartAtRuntime.html">Adding new items to chart at runtime</option>
+				<option value="CasePageSizeDiagramWithoutUILayoutWidget.html">Page Size Diagram without UI Layout Widget</option>
+				<option value="CaseAutoSize.html">Auto size diagram in article</option>
+				<option value="CaseOrganizationalChartInsidejQueryUIDialog.html">Organizational Chart inside jQuery UI Dialog</option>
+				<option value="CasePrintPreview.html">Print Preview Layout Mode</option>
+				<option value="CaseCSSScaleTransform.html">Zoom using CSS Scale Transform</option>
+				<option value="CaseAngularJSOrganizationalChartDirective.html">AngularJS Directive Example</option>
+
+				<option disabled></option>
+				<option disabled>USER INTERFACE EVENTS & OPTIONS:</option>
+				<option value="CaseSelectingCursorItem.html">Selecting cursor item</option>
+				<option value="CaseSelectingHighlightItem.html">Selecting highlight item</option>
+				<option value="CaseSelectedItems.html">Selected items & Check boxes</option>
+				<option value="CaseButtonsPanel.html">Buttons panel</option>
+				<option value="CaseItemAndGroupTitleColors.html">Item and group title colors</option>
+
+				<option disabled></option>
+				<option disabled>ORGANIZATIONAL CHART LAYOUT OPTIONS:</option>
+				<option value="CaseChildrenPlacementType.html">Children Placement</option>
+				<option value="CaseAdviserAndAssistantItemTypes.html">Adviser and Assistant item types</option>
+				<option value="CaseSubAdviserAndSubAssistantItemTypes.html">SubAdviser and SubAssistant item types</option>
+				<option value="CaseGeneralPartnerItemType.html">General Partner item type</option>
+				<option value="CaseLimitedPartnerItemType.html">Limited Partner item type</option>
+				<option value="CaseAdviserPartnerItemType.html">Adviser Partner item type</option>
+				<option value="CaseMultipleRootItemsInChart.html">Multiple root items in chart</option>
+				<option value="CaseMatrixLayoutOfMultipleRootItemsInChart.html">Matrix layout of multiple root items in chart</option>
+				<option value="CaseSelectionPathMode.html">Selection path mode</option>
+				<option value="CaseInactiveItems.html">Inactive Items in layout</option>
+				<option value="CaseCustomLayoutWithInvisibleItems.html">Custom layout with invisible items</option>
+				<option value="DemoInvisibleItems.html">Demo Invisibles Items</option>
+				<option value="CaseSkippedLevels.html">Skip levels</option>
+
+				<option disabled></option>
+				<option disabled>FAMILY DIAGRAM LAOUT USE CASES:</option>
+				<option value="CaseSkippedParentInFamilyChartChart.html">Skipped Parent In Family Chart</option>
+				<option value="CaseLabelsCascadesInFamilyChart.html">Labels cascades over connection lines in family chart</option>
+
+				<option disabled></option>
+				<option disabled>ITEM TEMPLATE USE CASES:</option>
+				<option value="CaseItemTemplate.html">Item template</option>
+				<option value="CaseAddingLinkToItemTemplate.html">Adding Link To Item Template</option>
+				<option value="CaseZoomWithItemTemplate.html">Zoom using item template</option>
+				<option value="CaseItemTemplateLabel.html">Labels & Item Template</option>
+				<option value="CaseCustomControlTemplate.html">jQuery UI Widget inside Item template</option>
+				<option value="CaseCursorTemplateAndTwitterBootstrap.html">Cursor template & Twitter Bootstrap</option>
+				<option value="CaseCursorAnimation.html">Cursor animation</option>
+				<option value="CaseHighlightTemplate.html">Highlight template</option>
+				<option value="CaseButtonsInCursorTemplate.html">Item specific context buttons</option>
+				
+				<option disabled></option>
+				<option disabled>ANNOTATIONS:</option>
+				<option value="CaseConnectorAnnotation.html">On-screen Connector Annotation</option>
+				<option value="CaseShapeAnnotation.html">Shape & Background Annotations</option>
+				<option value="CaseHighlightPathAnnotation.html">Highlight Path Annotation</option>
+				<option value="CasePERTChart.html">PERT chart & Critical Path Visualization</option>
+
+				<option disabled></option>
+				<option disabled>HELPER WIDGETS:</option>
+				<option value="DemoText.html">Rotated Text</option>
+				<option value="DemoCallout.html">Callout</option>
+				<option value="DemoShape.html">Shape Annotation</option>
+				<option value="DemoConnector.html">Connector Annotation</option>
+				<option value="DemoHighlightAndAnnotations.html">Demo Highlight & Connector Annotations</option>
+
+				<option disabled></option>
+				<option disabled>Reference:</option>
+				<option value="ReferenceControlsProcessingDiagram.html">Controls Processing Diagram</option>
+				<option value="Tests.html">Unit Tests</option>
+			</select>
+			<label>&nbsp;<a id="link" href="DemoLargeHierarchy.html">DemoLargeHierarchy.html</a></label>
+		</div>
+	</div>
+	<div style="position: absolute; left: 0; right: 0; bottom: 0; top: 30px; height: expression(document.body.clientHeight-30);">
+		<iframe id="content" width="100%" height="100%" src="DemoLargeHierarchy.html" />
+	</div>
+</body>
+</html>

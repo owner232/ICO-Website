@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html> 
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Basic Primitives: bpShape jQuery Widget Example</title>
+	<link rel="stylesheet" href="demo/js/jquery/ui-lightness/jquery-ui-1.10.2.custom.css" />
+	<script type="text/javascript" src="demo/js/jquery/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="demo/js/jquery/jquery-ui-1.10.2.custom.js"></script>
+
+	<!-- jQuery UI Layout -->
+	<script type="text/javascript" src="demo/jquerylayout/jquery.layout-latest.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="demo/jquerylayout/layout-default-latest.css" />
+
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			jQuery('body').layout(
+			{
+				center__paneSelector: "#contentpanel"
+			});
+		});
+	</script>
+
+	<!-- header -->
+
+	<!-- # include file="src/src.primitives.html"-->
+
+	<link href="demo/css/primitives.latest.css?3600" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="demo/js/primitives.min.js?3600"></script>
+
+
+	<script type="text/javascript">
+		var widget = null;
+
+		jQuery(document).ready(function () {
+			jQuery.ajaxSetup({
+				cache: false
+			});
+
+			jQuery("#position").resizable({ stop: function (event, ui) { Update(jQuery("#annotation")); } });
+			jQuery("#position").draggable({ stop: function (event, ui) { Update(jQuery("#annotation")); } });
+
+			jQuery('#contentpanel').layout(
+			{
+				center__paneSelector: "#centerpanel"
+				, west__size: 200
+				, west__paneSelector: "#westpanel"
+				, west__resizable: true
+				, center__onresize: function () {
+					if (widget != null) {
+						Update(jQuery("#annotation"));
+					}
+				}
+			});
+
+			// orientationType
+			var orientationType = jQuery("#orientationType");
+			for (var key in primitives.common.OrientationType) {
+				var value = primitives.common.OrientationType[key];
+				orientationType.append(jQuery("<br/><label><input name='orientationType' type='radio' value='" + value + "' " + (value == primitives.common.OrientationType.Top ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=orientationType]").change(function () {
+				Update(jQuery("#annotation"));
+			});
+
+			// lineType
+			var connectorShapeType = jQuery("#lineType");
+			for (var key in primitives.common.LineType) {
+				var value = primitives.common.LineType[key];
+				connectorShapeType.append(jQuery("<br/><label><input name='lineType' type='radio' value='" + value + "' " + (value == primitives.common.LineType.Solid ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=lineType]").change(function () {
+				Update(jQuery("#annotation"));
+			});
+
+			// shapeType
+			var shapeType = jQuery("#shapeType");
+			for (var key in primitives.common.ShapeType) {
+				var value = primitives.common.ShapeType[key];
+				shapeType.append(jQuery("<br/><label><input name='shapeType' type='radio' value='" + value + "' " + (value == primitives.common.ShapeType.Rectangle ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=shapeType]").change(function () {
+				Update(jQuery("#annotation"));
+			});
+
+			// offset
+			var offsets = [-50, -20, -10, -5, 0, 5, 10, 20, 50];
+			var offset = jQuery("<select></select>");
+			jQuery("#offset").append(offset);
+			for (var index = 0; index < offsets.length; index += 1) {
+				var value = offsets[index];
+				offset.append(jQuery("<option value='" + value + "' " + (value == 20 ? "selected" : "") + " >" + value + "</option>"));
+			};
+
+			jQuery("#offset").change(function () {
+				Update(jQuery("#annotation"));
+			});
+
+
+			// lineWidth
+			var lineWidths = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+			var lineWidth = jQuery("<select></select>");
+			jQuery("#lineWidth").append(lineWidth);
+			for (var index = 0; index < lineWidths.length; index += 1) {
+				var value = lineWidths[index];
+				lineWidth.append(jQuery("<option value='" + value + "' " + (value == 2 ? "selected" : "") + " >" + value + "</option>"));
+			};
+
+			jQuery("#lineWidth").change(function () {
+				Update(jQuery("#annotation"));
+			});
+
+			// borderColor
+			var borderColor = jQuery("<select></select>");
+			jQuery("#borderColor").append(borderColor);
+			for (var key in primitives.common.Colors) {
+				var value = primitives.common.Colors[key];
+				borderColor.append(jQuery("<option value='" + value + "' " + (value == primitives.common.Colors.Black ? "selected" : "") + " >" + key + "</option>"));
+			};
+
+			jQuery("#borderColor").change(function () {
+				Update(jQuery("#annotation"));
+			});
+
+			// fillColor
+			var fillColor = jQuery("<select></select>");
+			jQuery("#fillColor").append(fillColor);
+			for (var key in primitives.common.Colors) {
+				var value = primitives.common.Colors[key];
+				fillColor.append(jQuery("<option value='" + value + "' " + (value == primitives.common.Colors.LightGray ? "selected" : "") + " >" + key + "</option>"));
+			};
+
+			jQuery("#fillColor").change(function () {
+				Update(jQuery("#annotation"));
+			});
+
+			// opacity
+			var opacities = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
+			var opacity = jQuery("<select></select>");
+			jQuery("#opacity").append(opacity);
+			for (var index = 0; index < opacities.length; index += 1) {
+				var value = opacities[index];
+				opacity.append(jQuery("<option value='" + value + "' " + (value == 1.0 ? "selected" : "") + " >" + value + "</option>"));
+			};
+
+			jQuery("#opacity").change(function () {
+				Update(jQuery("#annotation"));
+			});
+
+			// cornerRadius
+			var cornerRadiuses = ["0%", "5%", "10%", "20%", 0, 5, 10, 20, 50];
+			var cornerRadius = jQuery("<select></select>");
+			jQuery("#cornerRadius").append(cornerRadius);
+			for (var index = 0; index < cornerRadiuses.length; index += 1) {
+				var value = cornerRadiuses[index];
+				cornerRadius.append(jQuery("<option value='" + value + "' " + (value == "5%" ? "selected" : "") + " >" + value + "</option>"));
+			};
+
+			jQuery("#cornerRadius").change(function () {
+				Update(jQuery("#annotation"));
+			});
+
+
+			/* Label Placement */
+			var labelPlacements = jQuery("#labelPlacement");
+			for (var key in primitives.common.PlacementType) {
+				var value = primitives.common.PlacementType[key];
+				labelPlacements.append(jQuery("<br/><label><input name='labelPlacement' type='radio' value='" + value + "' " + (value == primitives.common.PlacementType.Bottom ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=labelPlacement]").change(function () {
+				Update(jQuery("#annotation"));
+			});
+
+			// graphicsType
+			var graphicsType = jQuery("#graphicsType");
+			for (var key in primitives.common.GraphicsType) {
+				var value = primitives.common.GraphicsType[key];
+				graphicsType.append(jQuery("<br/><label><input name='graphicsType' type='radio' value='" + value + "' " + (value == primitives.common.GraphicsType.SVG ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=graphicsType]").change(function () {
+				Update(jQuery("#annotation"), true);
+			});
+
+			Setup(jQuery("#annotation"));
+		});
+
+		function ShowGraphicsType(graphicsType) {
+			var result = null;
+
+			switch (graphicsType) {
+				case primitives.common.GraphicsType.SVG:
+					result = "SVG";
+					break;
+				case primitives.common.GraphicsType.Canvas:
+					result = "Canvas";
+					break;
+				case primitives.common.GraphicsType.VML:
+					result = "VML";
+					break;
+			}
+			jQuery("#actualGraphicsType").empty().append("Graphics Type: " + result);
+		}
+
+		function Setup(selector) {
+			widget = selector.bpShape(GetConfig());
+
+			ShowGraphicsType(selector.bpShape("option", "actualGraphicsType"));
+		}
+
+		function Update(selector, recreate) {
+			selector.bpShape("option", GetConfig());
+			selector.bpShape("update", recreate);
+
+			ShowGraphicsType(selector.bpShape("option", "actualGraphicsType"));
+		}
+
+		function GetConfig() {
+			var graphicsType = parseInt(jQuery("input:radio[name=graphicsType]:checked").val(), 10);
+			var orientationType = parseInt(jQuery("input:radio[name=orientationType]:checked").val(), 10);
+			var shapeType = parseInt(jQuery("input:radio[name=shapeType]:checked").val(), 10);
+			var borderColor = jQuery("#borderColor option:selected").val();
+
+			var fillColor = jQuery("#fillColor option:selected").val();
+			var cornerRadius = jQuery("#cornerRadius option:selected").val();
+			var opacity = parseFloat(jQuery("#opacity option:selected").val());
+
+			var offsetValue = parseInt(jQuery("#offset option:selected").val(), 10);
+			var offset = new primitives.common.Thickness(offsetValue, offsetValue, offsetValue, offsetValue);
+			var lineWidth = parseInt(jQuery("#lineWidth option:selected").val(), 10);
+			var lineType = parseInt(jQuery("input:radio[name=lineType]:checked").val(), 10);
+
+			var labelPlacement = parseInt(jQuery("input:radio[name=labelPlacement]:checked").val(), 10);
+
+			var panel = jQuery("#centerpanel");
+			var panelSize = new primitives.common.Rect(0, 0, panel.innerWidth(), panel.innerHeight());
+			jQuery("#annotation").css(panelSize.getCSS());
+
+			var positionRect = jQuery("#position");
+			var position = new primitives.common.Rect(positionRect.position().left, positionRect.position().top, positionRect.innerWidth(), positionRect.innerHeight());
+
+			return {
+				label: "<div class='bp-badge' style='width:10px; height:10px;background-color:red; color: white;'>5</div>Some text annotation",
+				labelSize: new primitives.common.Size(60, 30),
+				labelPlacement: labelPlacement,
+				graphicsType: graphicsType,
+				orientationType: orientationType,
+				shapeType: shapeType,
+				lineType: lineType,
+				position: position,
+				borderColor: borderColor,
+				offset: offset,
+				lineWidth: lineWidth,
+				fillColor: fillColor,
+				cornerRadius: cornerRadius,
+				opacity: opacity
+			};
+		}
+	</script>
+	<!-- /header -->
+</head>
+<body style="font-size: 12px">
+	<div id="contentpanel" style="padding: 0px;">
+		<!--bpcontent-->
+		<div id="westpanel" style="padding: 0px; margin: 0px; border-style: solid; font-size: 12px; overflow: scroll; -webkit-overflow-scrolling: touch;">
+			<h2>Shape</h2>
+			<p>This is helper jQuery UI widget draws shapes in all major graphics formats: SVG, Canvas & VML.</p>
+			<h3>Layout</h3>
+			<p id="shapeType">Shape type</p>
+			<p id="orientationType">Diagram orientation type</p>
+			<p id="offset">Offset:&nbsp;</p>
+			<p id="cornerRadius">Corner radius:&nbsp;</p>
+			<p id="labelPlacement">Label Placement</p>
+			<h3>Style</h3>
+			<p id="lineType">Line type</p>
+			<p id="borderColor">Border color:&nbsp;</p>
+			<p id="lineWidth">Line width:&nbsp;</p>
+			<p id="fillColor">Fill color:&nbsp;</p>
+			<p id="opacity">Opacity:&nbsp;</p>
+			<h3>Rendering Mode</h3>
+			<p id="graphicsType"></p>
+			<p id="actualGraphicsType"></p>
+		</div>
+		<div id="centerpanel" style="padding: 0px; margin: 0px; overflow: hidden;">
+			<div id="annotation" style="position: absolute; padding: 0px; margin: 0px;"></div>
+			<div id="position" style="position: absolute; background: white; opacity: 0.5; border-style: dashed; border-width: 1px; border-color: gray; width: 150px; height: 100px; top: 100px; left: 100px; padding: 20px; border-radius: 20px;">
+				position: Drag & Resize this div around
+			</div>
+		</div>
+		<!--/bpcontent-->
+	</div>
+</body>
+</html>

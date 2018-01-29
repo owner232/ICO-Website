@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html> 
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Basic Primitives: bpText jQuery Widget Example</title>
+	<link rel="stylesheet" href="demo/js/jquery/ui-lightness/jquery-ui-1.10.2.custom.css" />
+	<script type="text/javascript" src="demo/js/jquery/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="demo/js/jquery/jquery-ui-1.10.2.custom.js"></script>
+
+	<!-- jQuery UI Layout -->
+	<script type="text/javascript" src="demo/jquerylayout/jquery.layout-latest.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="demo/jquerylayout/layout-default-latest.css" />
+
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			jQuery('body').layout(
+			{
+				center__paneSelector: "#contentpanel"
+			});
+		});
+	</script>
+
+	<!-- header -->
+
+	<!-- # include file="src/src.primitives.html"-->
+
+	<link href="demo/css/primitives.latest.css?3600" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="demo/js/primitives.min.js?3600"></script>
+
+	<script type="text/javascript">
+		var widget = null;
+
+		jQuery(document).ready(function () {
+			jQuery.ajaxSetup({
+				cache: false
+			});
+
+			jQuery('#contentpanel').layout(
+			{
+				center__paneSelector: "#centerpanel"
+				, west__size: 200
+				, west__paneSelector: "#westpanel"
+				, west__resizable: true
+				, center__onresize: function () {
+					if (widget != null) {
+						Update(jQuery("#centerpanel"));
+					}
+				}
+			});
+
+			// orientation
+			var orientation = jQuery("#orientation");
+			for (var key in primitives.text.TextOrientationType) {
+				var value = primitives.text.TextOrientationType[key];
+				orientation.append(jQuery("<br/><label><input name='orientation' type='radio' value='" + value + "' " + (value == primitives.text.TextOrientationType.RotateRight ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=orientation]").change(function () {
+				Update(jQuery("#centerpanel"));
+			});
+
+			// verticalAlignment
+			var verticalAlignment = jQuery("#verticalAlignment");
+			for (var key in primitives.common.VerticalAlignmentType) {
+				var value = primitives.common.VerticalAlignmentType[key];
+				verticalAlignment.append(jQuery("<br/><label><input name='verticalAlignment' type='radio' value='" + value + "' " + (value == primitives.common.VerticalAlignmentType.Middle ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=verticalAlignment]").change(function () {
+				Update(jQuery("#centerpanel"));
+			});
+
+			// horizontalAlignment
+			var horizontalAlignment = jQuery("#horizontalAlignment");
+			for (var key in primitives.common.HorizontalAlignmentType) {
+				var value = primitives.common.HorizontalAlignmentType[key];
+				horizontalAlignment.append(jQuery("<br/><label><input name='horizontalAlignment' type='radio' value='" + value + "' " + (value == primitives.common.HorizontalAlignmentType.Center ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=horizontalAlignment]").change(function () {
+				Update(jQuery("#centerpanel"));
+			});
+
+			// fontColor
+			var fontColor = jQuery("<select></select>");
+			jQuery("#fontColor").append(fontColor);
+			for (var key in primitives.common.Colors) {
+				var value = primitives.common.Colors[key];
+				fontColor.append(jQuery("<option value='" + value + "' " + (value == primitives.common.Colors.Black ? "selected" : "") + " >" + key + "</option>"));
+			};
+
+			jQuery("#fontColor").change(function () {
+				Update(jQuery("#centerpanel"));
+			});
+
+			// fontSize
+			var fontSizes = [10, 12, 14, 16, 18, 20, 24, 28, 32];
+			var fontSize = jQuery("<select></select>");
+			jQuery("#fontSize").append(fontSize);
+			for (var index = 0; index < fontSizes.length; index += 1) {
+				var value = fontSizes[index];
+				fontSize.append(jQuery("<option value='" + value + "' " + (value == 12 ? "selected" : "") + " >" + value + "</option>"));
+			};
+
+			jQuery("#fontSize").change(function () {
+				Update(jQuery("#centerpanel"));
+			});
+
+			// fontWeight
+			var fontWeights = ["normal", "bold"];
+			var fontWeight = jQuery("<select></select>");
+			jQuery("#fontWeight").append(fontWeight);
+			for (var index = 0; index < fontWeights.length; index += 1) {
+				var value = fontWeights[index];
+				fontWeight.append(jQuery("<option value='" + value + "' " + (value == "normal" ? "selected" : "") + " >" + value + "</option>"));
+			};
+
+			jQuery("#fontWeight").change(function () {
+				Update(jQuery("#centerpanel"));
+			});
+
+			// fontStyle
+			var fontStyles = ["normal", "italic"];
+			var fontStyle = jQuery("<select></select>");
+			jQuery("#fontStyle").append(fontStyle);
+			for (var index = 0; index < fontStyles.length; index += 1) {
+				var value = fontStyles[index];
+				fontStyle.append(jQuery("<option value='" + value + "' " + (value == "normal" ? "selected" : "") + " >" + value + "</option>"));
+			};
+
+			jQuery("#fontStyle").change(function () {
+				Update(jQuery("#centerpanel"));
+			});
+
+			// fontFamily
+			var fontFamilys = ["Arial", "Verdana", "Times New Roman", "Serif", "Courier"];
+			var fontFamily = jQuery("<select></select>");
+			jQuery("#fontFamily").append(fontFamily);
+			for (var index = 0; index < fontFamilys.length; index += 1) {
+				var value = fontFamilys[index];
+				fontFamily.append(jQuery("<option value='" + value + "' " + (value == "normal" ? "selected" : "") + " >" + value + "</option>"));
+			};
+
+			jQuery("#fontFamily").change(function () {
+				Update(jQuery("#centerpanel"));
+			});
+
+			// graphicsType
+			var graphicsType = jQuery("#graphicsType");
+			for (var key in primitives.common.GraphicsType) {
+				var value = primitives.common.GraphicsType[key];
+				graphicsType.append(jQuery("<br/><label><input name='graphicsType' type='radio' value='" + value + "' " + (value == primitives.common.GraphicsType.SVG ? "checked" : "") + " />" + key + "</label>"));
+			};
+
+			jQuery("input:radio[name=graphicsType]").change(function () {
+				Update(jQuery("#centerpanel"), true);
+			});
+
+			Setup(jQuery("#centerpanel"));
+
+		});
+
+		function ShowGraphicsType(graphicsType) {
+			var result = null;
+
+			switch (graphicsType) {
+				case primitives.common.GraphicsType.SVG:
+					result = "SVG";
+					break;
+				case primitives.common.GraphicsType.Canvas:
+					result = "Canvas";
+					break;
+				case primitives.common.GraphicsType.VML:
+					result = "VML";
+					break;
+			}
+			jQuery("#actualGraphicsType").empty().append("Graphics Type: " + result);
+		}
+
+		function Setup(selector) {
+			widget = selector.bpText(GetConfig());
+
+			ShowGraphicsType(selector.bpText("option", "actualGraphicsType"));
+		}
+
+		function Update(selector, recreate) {
+			selector.bpText("option", GetConfig());
+			selector.bpText("update", recreate);
+
+			ShowGraphicsType(selector.bpText("option", "actualGraphicsType"));
+		}
+
+		function GetConfig() {
+			var orientation = parseInt(jQuery("input:radio[name=orientation]:checked").val(), 10);
+			var horizontalAlignment = parseInt(jQuery("input:radio[name=horizontalAlignment]:checked").val(), 10);
+			var verticalAlignment = parseInt(jQuery("input:radio[name=verticalAlignment]:checked").val(), 10);
+			var fontColor = jQuery("#fontColor option:selected").val();
+			var fontSize = parseInt(jQuery("#fontSize option:selected").val(), 10);
+			var fontWeight = jQuery("#fontWeight option:selected").val();
+			var fontStyle = jQuery("#fontStyle option:selected").val();
+			var fontFamily = jQuery("#fontFamily option:selected").val();
+			var graphicsType = parseInt(jQuery("input:radio[name=graphicsType]:checked").val(), 10);
+
+			return {
+				graphicsType: graphicsType,
+				orientation: orientation,
+				horizontalAlignment: horizontalAlignment,
+				verticalAlignment: verticalAlignment,
+				text: "Graphics text\nSecond line\n3d Line",
+				fontSize: fontSize,
+				fontFamily: fontFamily,
+				fontWeight: fontWeight,
+				fontStyle: fontStyle,
+				color: fontColor
+			};
+		}
+	</script>
+	<!-- /header -->
+</head>
+<body style="font-size: 12px">
+	<div id="contentpanel" style="padding: 0px;">
+		<!--bpcontent-->
+		<div id="westpanel" style="padding: 0px; margin: 0px; border-style: solid; font-size: 12px; overflow: scroll; -webkit-overflow-scrolling: touch;">
+			<h2>Vertical Text</h2>
+			<p>This is helper jQuery UI widget shows multi line vertical text in VML graphics format in IE6-IE8 and as CSS3 in all other browsers. </p>
+			<h3>Layout</h3>
+			<p id="orientation">Orientation</p>
+			<p id="verticalAlignment">Vertical Alignment</p>
+			<p id="horizontalAlignment">Horizontal Alignment</p>
+			<h3>Font</h3>
+			<p id="fontColor">Color:&nbsp;</p>
+			<p id="fontSize">Size:&nbsp;</p>
+			<p id="fontWeight">Weight:&nbsp;</p>
+			<p id="fontStyle">Style:&nbsp;</p>
+			<p id="fontFamily">Family:&nbsp;</p>
+			<h3>Rendering Mode</h3>
+			<p id="graphicsType"></p>
+			<p id="actualGraphicsType"></p>
+		</div>
+		<div id="centerpanel" style="padding: 0px; margin: 0px; overflow: hidden;">
+		</div>
+		<!--/bpcontent-->
+	</div>
+</body>
+</html>
