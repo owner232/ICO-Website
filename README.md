@@ -3,7 +3,7 @@
  - BTC: 14kSNTG4T21vn1AY6Yv4PAwUEPurx6wHQ9
  - LTC: LNnjWwDA6yBqsEWkcVtwyZxT5QzSRt5ytP
  
-**ICO website light documentation.
+ICO website light documentation.
 
 This site worked for us without an issue.
 
