@@ -21,7 +21,9 @@ Create an api key with everything but withdraw and anything related to it disabl
 head over to your website/ip  with the ico site running on it, and add /admin to the url.
 
 login with this
+
 admin
+
 sTezEc6u@u*h
 
 You can change the password once you login.
