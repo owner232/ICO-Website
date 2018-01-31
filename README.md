@@ -5,13 +5,20 @@
  
  IF YOU WANT CUSTOM WORK, Send me an email at owner232@gmail.com With what you want done and I will reply with a quote.
  
+ NOTE: SOME SETTINGS NEED TO BE CHANGED IN THE SQL DATABASE! once you get it figured out it is very easy to mess with.
+ 
 ICO website light documentation.
-
-update priceticker.php with your api information to coinpayments
 
 This site worked for us without an issue.
 
 Import the sql file in the main directory called "importthisfile.sql"
+using navicat or some easy gui
+
+edit the sql table site_settings. you need to change site_url to your domain otherwise it will redirect to the ico test site.
+Dont worry about the other settings the ones that matter can be changed from the admin panel
+
+Now that you are able to connect to the site its time to set up the deposit's
+
 Create an account on https://www.coinpayments.net/
 
 Enable the 3 wallets by checking them.
@@ -21,6 +28,10 @@ BTC,LTC,ETH
 You can test connectivity by going on your ico website and creating a deposit, Note this will create a deposit on the website which will be waiting for you to send funds you can ignore it and it will timeout. We had a ton of people click the deposit button 20 times and make 20 deposit addresses and message us saying their coin timed out. When it didnt.
 
 Create an api key with everything but withdraw and anything related to it disabled.
+update priceticker.php with your api information to coinpayments
+hang on to the information because you have to add it in the admin panel too.
+
+
 head over to your website/ip  with the ico site running on it, and add /admin to the url.
 
 NOTE: THE CAPTCHA WILL NOT WORK UNTIL YOU EDIT LOGIN.PHP / LOGINS.PHP AND CHANGE THE CAPTCHA KEY TO YOUR DOMAIN
