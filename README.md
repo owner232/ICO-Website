@@ -1,9 +1,5 @@
-**If this website helped you Please feel free to send something our way!**
 
- - BTC: 14kSNTG4T21vn1AY6Yv4PAwUEPurx6wHQ9
- - LTC: LNnjWwDA6yBqsEWkcVtwyZxT5QzSRt5ytP
- 
- IF YOU WANT CUSTOM WORK, Send me an email at owner232@gmail.com With what you want done and I will reply with a quote.
+  IF YOU WANT CUSTOM WORK, Send me an email at owner232@gmail.com With what you want done and I will reply with a quote.
  
  NOTE: SOME SETTINGS NEED TO BE CHANGED IN THE SQL DATABASE! once you get it figured out it is very easy to mess with.
  
